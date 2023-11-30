@@ -56,7 +56,7 @@ const SignUp = () => {
         </Form.Group>
         <Form.Group className="link">
           <Form.Label>
-            <Link to="/login">Already have an account?</Link>
+            <Link to="/signInp">Already have an account?</Link>
           </Form.Label>
         </Form.Group>
         <Button type="submit">SIGNUP</Button>

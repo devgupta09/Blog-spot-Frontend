@@ -47,7 +47,7 @@ const MainPage = () => {
             setIsLoading(true);
             setTimeout(() => {
               setToken(null);
-              navigate("/login");
+              navigate("/signIn");
               setIsLoading(false);
             }, 1000);
             setModalOpen(false);
