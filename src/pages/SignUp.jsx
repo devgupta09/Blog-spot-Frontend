@@ -27,10 +27,10 @@ const SignUp = () => {
         style={{ gap: "7%" }}
       >
         <Form.Group as={Col} controlId="username">
-          <Form.Label>Username</Form.Label>
+          <Form.Label>Name</Form.Label>
           <Form.Control
             type="text"
-            placeholder="Username"
+            placeholder="Name"
             aria-describedby="inputGroupPrepend"
             required
           />

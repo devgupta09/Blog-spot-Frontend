@@ -5,39 +5,13 @@ import { useStoreActions } from "easy-peasy";
 import "../styles/style.scss";
 
 const SignIn = () => {
-  const setToken = useStoreActions((action) => action.user.setToken);
+  const logIn = useStoreActions((action) => action.user.signIn);
   const [validated, setValidated] = useState(false);
+  const navigate = useNavigate();
   const [data, setData] = useState({
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
-  const host = "http://localhost:8000";
-
-  var myHeaders = new Headers();
-  myHeaders.append("Content-Type", "application/json");
-
-  const signIn = (email, password) => {
-    var payload = JSON.stringify({
-      email: email,
-      password: password,
-    });
-
-    var requestOptions = {
-      method: "POST",
-      headers: myHeaders,
-      body: payload,
-    };
-
-    fetch(`${host}/auth/signIn`, requestOptions)
-      .then((response) => response.json())
-      .then((result) => {
-        console.log(result);
-        navigate("/allBlogs");
-        setToken(result.authToken);
-      })
-      .catch((error) => console.log("error", error));
-  };
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -48,9 +22,10 @@ const SignIn = () => {
     if (data.email == "" || data.password == "") {
       return;
     }
-    console.log(data);
     setValidated(true);
-    signIn(data.email, data.password);
+    logIn(data).then(() => {
+      navigate("/allBlogs");
+    });
   };
 
   return (

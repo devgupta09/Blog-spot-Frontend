@@ -1,9 +1,9 @@
 import UserModel from "./UserModel";
-import NotesModel from "./NotesModel";
+import BlogsModel from "./BlogsModel";
 
 const ModelsStore = {
   user: UserModel,
-  note: NotesModel,
+  blog: BlogsModel,
 };
 
 export default ModelsStore;

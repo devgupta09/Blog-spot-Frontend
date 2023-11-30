@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useStoreActions, useStoreState } from "easy-peasy";
 import {
   LiaAngleDoubleLeftSolid,
   LiaAngleDoubleRightSolid,
@@ -8,7 +9,9 @@ import "../styles/style.scss";
 const AllBlogs = () => {
   const [index, setIndex] = useState(0);
   const [blogList, setBlogList] = useState([]);
-  const [blog, setBlog] = useState();
+  const [blog, setBlog] = useState({});
+  const getAllBlogs = useStoreActions((action) => action.blog.getAllBlogs);
+  const allBlogs = useStoreState((state) => state.blog.blogs);
 
   const prevPage = () => {
     if (index > 0) {
@@ -23,6 +26,16 @@ const AllBlogs = () => {
       document.getElementById("left").classList.remove("disable-btn");
     }
   };
+
+  useEffect(() => {
+    setBlogList(allBlogs);
+    console.log("Blogs: ", allBlogs);
+    setBlog(blogList[index]);
+  }, [allBlogs]);
+
+  useEffect(() => {
+    getAllBlogs();
+  }, []);
 
   useEffect(() => {
     setBlog(blogList[index]);
@@ -45,10 +58,16 @@ const AllBlogs = () => {
       </span>
       <div className="blogs-container">
         <div className="blog-content" key={blogList.key}>
-          {/* <h3>{blog.title}</h3>
-          <p>{blog.description}</p>
-          <span>{`~ ${blog.author}`}</span>
-          <p className="page">{`${blog.id + 1}/${blogList.length}`}</p> */}
+          {blog?.title ? (
+            <>
+              <h3>{blog.title}</h3>
+              <p>{blog.description}</p>
+              <span>{`~ ${blog.author}`}</span>
+              <p className="page">{`${index + 1}/${blogList.length}`}</p>
+            </>
+          ) : (
+            <span>No Blogs Available</span>
+          )}
         </div>
       </div>
     </div>
