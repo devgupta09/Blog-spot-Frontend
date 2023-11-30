@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Loader from "./Loader";
-import Login from "./Login";
+import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import "../styles/style.scss";
 
@@ -18,7 +18,7 @@ const DefaultPage = () => {
     <Loader isLoading={isLoading}>
       <div className="default-container">
         <div className="form-container">
-          {path == "/login" ? <Login /> : <SignUp />}
+          {path == "/signIn" ? <SignIn /> : <SignUp />}
         </div>
       </div>
     </Loader>

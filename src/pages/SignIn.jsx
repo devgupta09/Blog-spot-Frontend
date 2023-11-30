@@ -1,20 +1,56 @@
 import { useState } from "react";
 import { Button, Col, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import { useStoreActions } from "easy-peasy";
 import "../styles/style.scss";
 
-const Login = () => {
+const SignIn = () => {
+  const setToken = useStoreActions((action) => action.user.setToken);
   const [validated, setValidated] = useState(false);
+  const [data, setData] = useState({
+    email: "",
+    password: "",
+  });
   const navigate = useNavigate();
+  const host = "http://localhost:8000";
+
+  var myHeaders = new Headers();
+  myHeaders.append("Content-Type", "application/json");
+
+  const signIn = (email, password) => {
+    var payload = JSON.stringify({
+      email: email,
+      password: password,
+    });
+
+    var requestOptions = {
+      method: "POST",
+      headers: myHeaders,
+      body: payload,
+    };
+
+    fetch(`${host}/auth/signIn`, requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result);
+        navigate("/allBlogs");
+        setToken(result.authToken);
+      })
+      .catch((error) => console.log("error", error));
+  };
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
+    event.preventDefault();
     if (form.checkValidity() === false) {
-      event.preventDefault();
       event.stopPropagation();
     }
+    if (data.email == "" || data.password == "") {
+      return;
+    }
+    console.log(data);
     setValidated(true);
-    navigate("/allBlogs");
+    signIn(data.email, data.password);
   };
 
   return (
@@ -29,9 +65,11 @@ const Login = () => {
         <Form.Group as={Col} controlId="username">
           <Form.Label>Username</Form.Label>
           <Form.Control
-            type="text"
+            type="email"
             placeholder="Username"
             aria-describedby="inputGroupPrepend"
+            value={data.email}
+            onChange={(e) => setData({ ...data, email: e.target.value })}
             required
           />
           <Form.Control.Feedback type="invalid">
@@ -40,7 +78,13 @@ const Login = () => {
         </Form.Group>
         <Form.Group as={Col} controlId="password">
           <Form.Label>Password</Form.Label>
-          <Form.Control type="Password" placeholder="Password" required />
+          <Form.Control
+            type="Password"
+            placeholder="Password"
+            value={data.password}
+            onChange={(e) => setData({ ...data, password: e.target.value })}
+            required
+          />
         </Form.Group>
         <Form.Group as={Col}>
           <Form.Check
@@ -64,4 +108,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SignIn;

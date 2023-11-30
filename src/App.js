@@ -1,19 +1,15 @@
-import React, { Suspense } from "react";
-import { Navigate, BrowserRouter, Routes, Route } from "react-router-dom";
-import DefaultPage from "./pages/DefaultPage";
-import MainPage from "./pages/MainPage";
+import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import { StoreProvider } from "easy-peasy";
+import RouterFlow from "./routes/RouterFlow";
+import store from "./store/store";
 
 const App = () => {
   return (
     <BrowserRouter>
-      <Suspense>
-        <Routes>
-          <Route exact path="/login" element={<DefaultPage />} />
-          <Route exact path="/signup" element={<DefaultPage />} />
-          <Route path="/" element={<Navigate to="/login" />} />
-          <Route path="*" element={<MainPage />}></Route>
-        </Routes>
-      </Suspense>
+      <StoreProvider store={store}>
+        <RouterFlow />
+      </StoreProvider>
     </BrowserRouter>
   );
 };

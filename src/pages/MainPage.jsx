@@ -9,8 +9,10 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Loader from "./Loader";
 import "../styles/style.scss";
+import { useStoreActions } from "easy-peasy";
 
 const MainPage = () => {
+  const setToken = useStoreActions((action)=>action.user.setToken)
   const [isLoading, setIsLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -44,6 +46,7 @@ const MainPage = () => {
           onOk={() => {
             setIsLoading(true);
             setTimeout(() => {
+              setToken(null);
               navigate("/login");
               setIsLoading(false);
             }, 1000);
