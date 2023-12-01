@@ -23,9 +23,12 @@ const SignIn = () => {
       return;
     }
     setValidated(true);
-    logIn(data).then(() => {
-      navigate("/allBlogs");
-    });
+    logIn(data)
+      .then((res) => {
+        console.log("Login Successfully!", res);
+        navigate("/allBlogs");
+      })
+      .catch((err) => console.err("Login Error!", err));
   };
 
   return (

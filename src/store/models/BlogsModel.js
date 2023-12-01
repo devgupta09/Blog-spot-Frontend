@@ -13,29 +13,35 @@ const BlogsModel = {
   // Get all blogs API calling
 
   getAllBlogs: thunk(async (action, payload) => {
-    await http()
+    const response = await http()
       .get("/getAllBlogs")
       .then((res) => {
         const { data } = res;
         action.getBlocksList(data);
+        return new Promise((resolve, reject) => resolve(data));
       })
       .catch((err) => {
-        console.error(err);
+        return new Promise((resolve, reject) => reject(err));
       });
+    return response;
   }),
 
   // Add new blog API calling
 
   addNewBlog: thunk(async (action, payload) => {
-    await http({ headers: { "Content-Type": "application/json" } })
+    const response = await http({
+      headers: { "Content-Type": "application/json" },
+    })
       .post("/addBlog", payload)
       .then((res) => {
         const { data } = res;
         action.addBlog(data);
+        return new Promise((resolve, reject) => resolve(data));
       })
       .catch((err) => {
-        console.error(err);
+        return new Promise((resolve, reject) => reject(err));
       });
+    return response;
   }),
 };
 

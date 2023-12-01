@@ -18,7 +18,7 @@ const DefaultPage = () => {
     <Loader isLoading={isLoading}>
       <div className="default-container">
         <div className="form-container">
-          {path == "/signIn" ? <SignIn /> : <SignUp />}
+          {path == "/signin" ? <SignIn /> : <SignUp />}
         </div>
       </div>
     </Loader>

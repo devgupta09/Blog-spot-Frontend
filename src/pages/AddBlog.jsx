@@ -24,9 +24,14 @@ const AddBlog = () => {
       return;
     }
     setValidated(true);
-    addNewBlog(data).then(() => {
-      navigate("/allBlogs");
-    });
+    addNewBlog(data)
+      .then((res) => {
+        console.log("New blog added Successfully!", res);
+        navigate("/allBlogs");
+      })
+      .catch((err) => {
+        console.error("Error while adding new Blog!", err);
+      });
   };
 
   return (
