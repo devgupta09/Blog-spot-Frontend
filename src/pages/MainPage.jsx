@@ -1,18 +1,19 @@
 import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import { Suspense, useEffect, useState } from "react";
 import { AiFillExclamationCircle } from "react-icons/ai";
+import { useStoreActions } from "easy-peasy";
 import { Modal } from "antd";
 import Page404 from "./Page404";
 import AllBlogs from "./AllBlogs";
-import NewBlog from "./AddBlog";
 import Header from "./Header";
 import Footer from "./Footer";
 import Loader from "./Loader";
+import MyBlogs from "./MyBlogs";
+import AddBlog from "./AddBlog";
 import "../styles/style.scss";
-import { useStoreActions } from "easy-peasy";
 
 const MainPage = () => {
-  const setToken = useStoreActions((action)=>action.user.setToken)
+  const setToken = useStoreActions((action) => action.user.setToken);
   const [isLoading, setIsLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ const MainPage = () => {
         <Modal
           title={
             <span>
-              <AiFillExclamationCircle size={25} style={{color:"#faad14"}} />
+              <AiFillExclamationCircle size={25} style={{ color: "#faad14" }} />
               {` Log out!`}
             </span>
           }
@@ -60,8 +61,9 @@ const MainPage = () => {
         <div className="content-container">
           <Suspense>
             <Routes>
-              <Route exact path="/addBlog" element={<NewBlog />} />
+              <Route exact path="/addBlog" element={<AddBlog />} />
               <Route exact path="/allBlogs" element={<AllBlogs />} />
+              <Route exact path="/myBlogs" element={<MyBlogs />} />
               <Route exact path="/errorPage" element={<Page404 />} />
               <Route path="/*" element={<Navigate to="/errorPage" />} />
             </Routes>

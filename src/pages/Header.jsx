@@ -28,18 +28,25 @@ const Header = (props) => {
       <Container>
         <Nav className="me-auto">
           <Nav.Link
+            to="/allBlogs"
+            as={Link}
+            style={path.toLowerCase() === "/allblogs" ? { color: "white" } : {}}
+          >
+            All Blogs
+          </Nav.Link>
+          <Nav.Link
+            to="/myBlogs"
+            as={Link}
+            style={path.toLowerCase() === "/myblogs" ? { color: "white" } : {}}
+          >
+            My Blogs
+          </Nav.Link>
+          <Nav.Link
             to="/addBlog"
             as={Link}
             style={path.toLowerCase() === "/addblog" ? { color: "white" } : {}}
           >
             Add Blog
-          </Nav.Link>
-          <Nav.Link
-            to="/allBlogs"
-            as={Link}
-            style={path.toLowerCase() === "/allblogs" ? { color: "white" } : {}}
-          >
-            Blogs
           </Nav.Link>
         </Nav>
         <Nav>

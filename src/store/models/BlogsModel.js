@@ -26,6 +26,22 @@ const BlogsModel = {
     return response;
   }),
 
+  // Get all blogs API calling
+
+  getMyBlogs: thunk(async (action, payload) => {
+    const response = await http()
+      .get("/getMyBlogs")
+      .then((res) => {
+        const { data } = res;
+        action.getBlocksList(data);
+        return new Promise((resolve, reject) => resolve(data));
+      })
+      .catch((err) => {
+        return new Promise((resolve, reject) => reject(err));
+      });
+    return response;
+  }),
+
   // Add new blog API calling
 
   addNewBlog: thunk(async (action, payload) => {
