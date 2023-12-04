@@ -2,9 +2,8 @@ import Container from "react-bootstrap/Container";
 import { Navbar, Nav, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Image } from "antd";
-import { useEffect } from "react";
-import brandLogo from "../assets/brand-logo.png";
-import "../styles/style.scss";
+import brandLogo from "../../assets/brand-logo.png";
+import "../../styles/style.scss";
 
 const Header = (props) => {
   const { showLogoutPopup } = props;
@@ -13,8 +12,6 @@ const Header = (props) => {
   const logout = () => {
     showLogoutPopup();
   };
-
-  useEffect(() => {}, [path]);
 
   return (
     <Navbar bg="primary" data-bs-theme="dark" sticky="top" className="bg-theme">

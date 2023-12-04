@@ -1,6 +1,6 @@
 import { Navigate } from "react-router-dom";
+import Page404 from "../components/common/Page404";
 import routes from "./routes";
-import Page404 from "../pages/Page404";
 
 const ProtectedRoute = (props) => {
   const authToken = localStorage.getItem("authToken");

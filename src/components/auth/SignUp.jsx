@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Button, Col, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
-import "../styles/style.scss";
 import { useStoreActions } from "easy-peasy";
+import "../../styles/style.scss";
 
 const SignUp = () => {
   const createNewAccount = useStoreActions((action) => action.user.signUp);

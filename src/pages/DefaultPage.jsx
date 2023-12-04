@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import Loader from "./Loader";
-import SignIn from "./SignIn";
-import SignUp from "./SignUp";
+import Loader from "../components/common/Loader";
+import SignIn from "../components/auth/SignIn";
+import SignUp from "../components/auth/SignUp";
 import "../styles/style.scss";
 
 const DefaultPage = () => {

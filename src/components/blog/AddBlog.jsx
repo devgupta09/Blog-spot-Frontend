@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Col, Form } from "react-bootstrap";
 import { useStoreActions } from "easy-peasy";
 import { useNavigate } from "react-router-dom";
-import "../styles/style.scss";
+import "../../styles/style.scss";
 
 const AddBlog = () => {
   const [validated, setValidated] = useState(false);

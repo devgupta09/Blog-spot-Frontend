@@ -1,15 +1,12 @@
-import { Routes, Route, Navigate, useNavigate } from "react-router-dom";
-import { Suspense, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { AiFillExclamationCircle } from "react-icons/ai";
 import { useStoreActions } from "easy-peasy";
 import { Modal } from "antd";
-import Page404 from "./Page404";
-import AllBlogs from "./AllBlogs";
-import Header from "./Header";
-import Footer from "./Footer";
-import Loader from "./Loader";
-import MyBlogs from "./MyBlogs";
-import AddBlog from "./AddBlog";
+import RouterFlow from "../routes/RouterFlow";
+import Header from "../components/dashboard/Header";
+import Footer from "../components/dashboard/Footer";
+import Loader from "../components/common/Loader";
 import "../styles/style.scss";
 
 const MainPage = () => {
@@ -59,15 +56,7 @@ const MainPage = () => {
           Do you really want to log out?
         </Modal>
         <div className="content-container">
-          <Suspense>
-            <Routes>
-              <Route exact path="/addBlog" element={<AddBlog />} />
-              <Route exact path="/allBlogs" element={<AllBlogs />} />
-              <Route exact path="/myBlogs" element={<MyBlogs />} />
-              <Route exact path="/errorPage" element={<Page404 />} />
-              <Route path="/*" element={<Navigate to="/errorPage" />} />
-            </Routes>
-          </Suspense>
+          <RouterFlow />
         </div>
         <Footer />
       </div>
