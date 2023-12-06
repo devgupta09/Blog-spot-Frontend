@@ -14,6 +14,7 @@ const RouterFlow = () => {
                 <Route
                   key={idx}
                   path={route.path}
+                  exact
                   element={<route.element />}
                 />
               )

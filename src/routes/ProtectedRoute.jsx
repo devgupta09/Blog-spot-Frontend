@@ -1,5 +1,4 @@
 import { Navigate } from "react-router-dom";
-import Page404 from "../components/common/Page404";
 import routes from "./routes";
 
 const ProtectedRoute = (props) => {
@@ -10,15 +9,23 @@ const ProtectedRoute = (props) => {
     return route.path == window.location.pathname;
   });
 
-  if (!isValidRoute) {
-    return <Page404 />;
+  if (window.location.pathname == "/") {
+    return <Navigate to={authToken ? "/allBlogs" : "/signIn"} />;
   }
 
-  if (authToken) {
-    return children;
+  if (!isValidRoute.length) {
+    return !authToken ? (
+      <Navigate to="/errorPage" replace />
+    ) : (
+      <Navigate to="/signIn" replace />
+    );
   }
 
-  return <Navigate to="/" replace />;
+  if (!authToken) {
+    return <Navigate to="/signIn" replace />;
+  }
+
+  return children;
 };
 
 export default ProtectedRoute;
