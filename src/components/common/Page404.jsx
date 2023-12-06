@@ -1,7 +1,6 @@
 import { Result } from "antd";
 import { Button } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import "../../styles/style.scss";
 
 const Page404 = () => {
   const navigate = useNavigate();
