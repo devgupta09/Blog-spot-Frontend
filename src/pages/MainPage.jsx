@@ -7,7 +7,6 @@ import RouterFlow from "../routes/RouterFlow";
 import Header from "../components/dashboard/Header";
 import Footer from "../components/dashboard/Footer";
 import Loader from "../components/common/Loader";
-import "../styles/style.scss";
 
 const MainPage = () => {
   const setToken = useStoreActions((action) => action.user.setToken);

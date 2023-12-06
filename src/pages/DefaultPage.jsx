@@ -4,7 +4,6 @@ import Loader from "../components/common/Loader";
 import SignIn from "../components/auth/SignIn";
 import SignUp from "../components/auth/SignUp";
 import MainPage from "./MainPage";
-import "../styles/style.scss";
 
 const DefaultPage = () => {
   const [isLoading, setIsLoading] = useState(true);

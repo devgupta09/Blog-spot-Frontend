@@ -3,7 +3,6 @@ import { Navbar, Nav, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { Image } from "antd";
 import brandLogo from "../../assets/brand-logo.png";
-import "../../styles/style.scss";
 
 const Header = (props) => {
   const { showLogoutPopup } = props;

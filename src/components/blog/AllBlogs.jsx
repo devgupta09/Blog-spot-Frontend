@@ -4,7 +4,6 @@ import {
   LiaAngleDoubleLeftSolid,
   LiaAngleDoubleRightSolid,
 } from "react-icons/lia";
-import "../../styles/style.scss";
 
 const AllBlogs = () => {
   const [index, setIndex] = useState(0);

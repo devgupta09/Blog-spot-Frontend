@@ -1,6 +1,4 @@
-import React from "react";
 import { Spin } from "antd";
-import "../../styles/style.scss";
 
 const Loader = (props) => {
   const { children, isLoading } = props;
