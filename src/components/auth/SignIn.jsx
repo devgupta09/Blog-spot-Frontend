@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Button, Col, Form } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useStoreActions } from "easy-peasy";
-import "../styles/style.scss";
+import "../../styles/style.scss";
 
 const SignIn = () => {
   const logIn = useStoreActions((action) => action.user.signIn);

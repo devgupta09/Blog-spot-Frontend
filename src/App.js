@@ -1,14 +1,13 @@
-import React from "react";
 import { BrowserRouter } from "react-router-dom";
 import { StoreProvider } from "easy-peasy";
-import RouterFlow from "./routes/RouterFlow";
 import store from "./store/store";
+import DefaultPage from "./pages/DefaultPage";
 
 const App = () => {
   return (
     <BrowserRouter>
       <StoreProvider store={store}>
-        <RouterFlow />
+        <DefaultPage />
       </StoreProvider>
     </BrowserRouter>
   );

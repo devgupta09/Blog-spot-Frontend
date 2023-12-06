@@ -1,7 +1,6 @@
 import { Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
-import MainPage from "../pages/MainPage";
 import routes from "./routes";
 
 const RouterFlow = () => {
@@ -15,12 +14,13 @@ const RouterFlow = () => {
                 <Route
                   key={idx}
                   path={route.path}
+                  exact
                   element={<route.element />}
                 />
               )
             );
           })}
-          <Route path="*" element={<MainPage />} />
+          <Route path="/*" element={<Navigate to="/errorPage" />} />
         </Routes>
       </ProtectedRoute>
     </Suspense>
