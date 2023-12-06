@@ -2,7 +2,7 @@ import { BrowserRouter } from "react-router-dom";
 import { StoreProvider } from "easy-peasy";
 import store from "./store/store";
 import DefaultPage from "./pages/DefaultPage";
-import './style.scss';
+import './styles.scss';
 
 const App = () => {
   return (
