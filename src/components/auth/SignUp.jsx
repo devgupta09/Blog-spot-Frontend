@@ -30,7 +30,7 @@ const SignUp = () => {
   };
 
   return (
-    <>
+    <div className="form-container">
       <h2>Create New Account!</h2>
       <Form
         validated={validated}
@@ -83,7 +83,7 @@ const SignUp = () => {
         </Form.Group>
         <Button type="submit">SIGNUP</Button>
       </Form>
-    </>
+    </div>
   );
 };
 

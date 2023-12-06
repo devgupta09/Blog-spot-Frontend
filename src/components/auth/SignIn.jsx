@@ -31,7 +31,7 @@ const SignIn = () => {
   };
 
   return (
-    <>
+    <div className="form-container">
       <h2>Welcome to Login Page! </h2>
       <Form
         validated={validated}
@@ -74,14 +74,17 @@ const SignIn = () => {
             Please provide a valid password
           </Form.Control.Feedback>
         </Form.Group>
-        <Form.Group className="link">
+        <Form.Group className="link d-flex flex-column">
           <Form.Label>
-            <Link to="/signup">Create new account?</Link>
+            <Link to="/signUp">Create new account?</Link>
+          </Form.Label>
+          <Form.Label>
+            <Link to="/forgetPassword"> Forget password?</Link>
           </Form.Label>
         </Form.Group>
         <Button type="submit">LOGIN</Button>
       </Form>
-    </>
+    </div>
   );
 };
 

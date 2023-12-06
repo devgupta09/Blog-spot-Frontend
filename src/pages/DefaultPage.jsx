@@ -1,34 +1,22 @@
-import { Suspense, useEffect, useState } from "react";
+import { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
-import Loader from "../components/common/Loader";
-import SignIn from "../components/auth/SignIn";
+import ForgetPassword from "../components/auth/ForgetPassword";
 import SignUp from "../components/auth/SignUp";
+import SignIn from "../components/auth/SignIn";
 import MainPage from "./MainPage";
 
 const DefaultPage = () => {
-  const [isLoading, setIsLoading] = useState(true);
-  const path = window.location.pathname;
-
-  useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-  }, []);
-
   return (
-    <Loader isLoading={isLoading}>
-      <div className="default-container">
-        <div className="form-container">
-          <Suspense>
-            <Routes>
-              <Route exact path="/signIn" element={<SignIn />} />
-              <Route exact path="/signUp" element={<SignUp />} />
-              <Route path="/*" element={<MainPage />} />
-            </Routes>
-          </Suspense>
-        </div>
-      </div>
-    </Loader>
+    <div className="default-container">
+      <Suspense>
+        <Routes>
+          <Route exact path="/signIn" element={<SignIn />} />
+          <Route exact path="/signUp" element={<SignUp />} />
+          <Route exact path="/forgetPassword" element={<ForgetPassword />} />
+          <Route path="/*" element={<MainPage />} />
+        </Routes>
+      </Suspense>
+    </div>
   );
 };
 
