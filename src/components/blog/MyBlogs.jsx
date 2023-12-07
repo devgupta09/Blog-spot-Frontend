@@ -27,13 +27,10 @@ const MyBlogs = () => {
   };
 
   useEffect(() => {
-    setBlogList(allBlogs);
-    setBlog(blogList[index]);
-  }, [allBlogs]);
-
-  useEffect(() => {
     getMyBlogs()
       .then((res) => {
+        setBlogList(allBlogs);
+        setBlog(blogList[index]);
         console.log("All blogs fetched!", res);
       })
       .catch((err) => {

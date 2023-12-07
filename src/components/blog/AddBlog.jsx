@@ -1,12 +1,11 @@
 import { useState } from "react";
-import { Button, Col, Form } from "react-bootstrap";
 import { useStoreActions } from "easy-peasy";
 import { useNavigate } from "react-router-dom";
 
 const AddBlog = () => {
+  const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const addNewBlog = useStoreActions((action) => action.blog.addNewBlog);
-  const navigate = useNavigate();
   const [data, setData] = useState({
     author: "",
     title: "",
@@ -14,15 +13,12 @@ const AddBlog = () => {
   });
 
   const handleSubmit = (event) => {
-    const form = event.currentTarget;
     event.preventDefault();
-    if (form.checkValidity() === false) {
-      event.stopPropagation();
-    }
     if (data.author == "" || data.description == "" || data.author == "") {
+      setValidated(true);
       return;
     }
-    setValidated(true);
+    setValidated(false);
     addNewBlog(data)
       .then((res) => {
         console.log("New blog added Successfully!", res);
@@ -36,44 +32,60 @@ const AddBlog = () => {
   return (
     <div className="blog-container">
       <h2>Add New Blog! </h2>
-      <Form validated={validated} onSubmit={handleSubmit} className="form-page">
-        <Form.Group as={Col} controlId="title">
-          <Form.Label>Title</Form.Label>
-          <Form.Control
+      <form
+        onSubmit={handleSubmit}
+        className={validated ? "was-validated" : ""}
+        noValidate
+      >
+        <div className="mb-3">
+          <label htmlFor="title" className="form-label">
+            Title*
+          </label>
+          <input
+            id="title"
+            placeholder="Enter Title"
             type="text"
-            placeholder="Title"
-            aria-describedby="inputGroupPrepend"
             value={data.title}
             onChange={(e) => setData({ ...data, title: e.target.value })}
+            className="form-control"
             required
           />
-        </Form.Group>
-        <Form.Group as={Col} controlId="decription">
-          <Form.Label>Description</Form.Label>
-          <Form.Control
-            type="text"
-            as="textarea"
-            placeholder="Enter description..."
-            aria-describedby="inputGroupPrepend"
+          <div className="invalid-feedback">This field is required!</div>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="description" className="form-label">
+            Description*
+          </label>
+          <textarea
+            className="form-control"
+            id="description"
+            rows="3"
+            placeholder="Enter description"
             value={data.description}
             onChange={(e) => setData({ ...data, description: e.target.value })}
             required
-            style={{ height: "120px" }}
           />
-        </Form.Group>
-        <Form.Group as={Col} controlId="author">
-          <Form.Label>Author</Form.Label>
-          <Form.Control
+          <div className="invalid-feedback">This field is required!</div>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="author" className="form-label">
+            Author*
+          </label>
+          <input
+            id="author"
             type="text"
-            placeholder="Author"
-            aria-describedby="inputGroupPrepend"
+            className="form-control"
+            placeholder="Enter author name"
             value={data.author}
             onChange={(e) => setData({ ...data, author: e.target.value })}
             required
           />
-        </Form.Group>
-        <Button type="submit">SUBMIT</Button>
-      </Form>
+          <div className="invalid-feedback">This field is required!</div>
+        </div>
+        <button type="submit" className="btn btn-primary w-100 mt-4">
+          Submit
+        </button>
+      </form>
     </div>
   );
 };

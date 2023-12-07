@@ -1,11 +1,11 @@
 import { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import ForgetPassword from "../components/auth/ForgetPassword";
+import DashboardPage from "./DashboardPage";
 import SignUp from "../components/auth/SignUp";
 import SignIn from "../components/auth/SignIn";
-import MainPage from "./MainPage";
 
-const DefaultPage = () => {
+const AuthenticationPage = () => {
   return (
     <div className="default-container">
       <Suspense>
@@ -13,11 +13,11 @@ const DefaultPage = () => {
           <Route exact path="/signIn" element={<SignIn />} />
           <Route exact path="/signUp" element={<SignUp />} />
           <Route exact path="/forgetPassword" element={<ForgetPassword />} />
-          <Route path="/*" element={<MainPage />} />
+          <Route path="/*" element={<DashboardPage />} />
         </Routes>
       </Suspense>
     </div>
   );
 };
 
-export default DefaultPage;
+export default AuthenticationPage;

@@ -1,50 +1,48 @@
 import { useState } from "react";
-import { Button, Col, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 const ForgetPassword = () => {
-  const [validated, setValidated] = useState(false);
   const navigate = useNavigate();
+  const [validated, setValidated] = useState(false);
   const [email, setEmail] = useState("");
 
   const handleSubmit = (event) => {
-    const form = event.currentTarget;
     event.preventDefault();
-    if (form.checkValidity() === false) {
-      event.stopPropagation();
-    }
     if (email == "") {
+      setValidated(true);
       return;
     }
-    setValidated(true);
+    setValidated(false);
     navigate("/signIn");
   };
 
   return (
     <div className="form-container">
       <h2>Forget Password!</h2>
-      <Form
-        validated={validated}
+      <form
         onSubmit={handleSubmit}
-        className="form-page"
-        style={{ gap: "7%" }}
+        className={validated ? "was-validated" : ""}
+        noValidate
       >
-        <Form.Group as={Col} controlId="email">
-          <Form.Label>Email</Form.Label>
-          <Form.Control
+        <div className="mb-3">
+          <label htmlFor="email" className="form-label">
+            Email*
+          </label>
+          <input
+            placeholder="Enter email"
             type="email"
-            placeholder="Email"
-            aria-describedby="inputGroupPrepend"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            className="form-control"
+            id="email"
             required
           />
-          <Form.Control.Feedback type="invalid">
-            Please provide a valid email
-          </Form.Control.Feedback>
-        </Form.Group>
-        <Button type="submit">SUBMIT</Button>
-      </Form>
+          <div className="invalid-feedback">This field is required!</div>
+        </div>
+        <button type="submit" className="btn btn-primary w-100 mt-4">
+          Submit
+        </button>
+      </form>
     </div>
   );
 };

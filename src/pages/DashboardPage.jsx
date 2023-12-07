@@ -7,7 +7,7 @@ import RouterFlow from "../routes/RouterFlow";
 import Header from "../components/dashboard/Header";
 import Footer from "../components/dashboard/Footer";
 
-const MainPage = () => {
+const DashboardPage = () => {
   const setToken = useStoreActions((action) => action.user.setToken);
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
@@ -51,4 +51,4 @@ const MainPage = () => {
   );
 };
 
-export default MainPage;
+export default DashboardPage;
