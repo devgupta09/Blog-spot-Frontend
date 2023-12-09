@@ -4,12 +4,13 @@ import {
   LiaAngleDoubleLeftSolid,
   LiaAngleDoubleRightSolid,
 } from "react-icons/lia";
+import Notification from "../common/Notification";
 
 const MyBlogs = () => {
   const [index, setIndex] = useState(0);
   const [blogList, setBlogList] = useState([]);
   const [blog, setBlog] = useState({});
-  const getMyBlogs = useStoreActions((action) => action.blog.getAllBlogs);
+  const getMyBlogs = useStoreActions((action) => action.blog.getMyBlogs);
   const allBlogs = useStoreState((state) => state.blog.blogs);
 
   const prevPage = () => {
@@ -27,15 +28,18 @@ const MyBlogs = () => {
   };
 
   useEffect(() => {
-    getMyBlogs()
-      .then((res) => {
-        setBlogList(allBlogs);
-        setBlog(blogList[index]);
-        console.log("All blogs fetched!", res);
-      })
-      .catch((err) => {
-        console.error("Error while fetching blogs!", err);
-      });
+    try {
+      getMyBlogs()
+        .then((res) => {
+          setBlogList(res);
+          setBlog(res[index]);
+        })
+        .catch((err) => {
+          console.error("Error while fetching blogs!", err);
+        });
+    } catch (err) {
+      Notification.error("Error while fetching Blogs!");
+    }
   }, []);
 
   useEffect(() => {

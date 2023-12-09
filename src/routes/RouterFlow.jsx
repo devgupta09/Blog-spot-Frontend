@@ -20,7 +20,6 @@ const RouterFlow = () => {
               )
             );
           })}
-          <Route path="/*" element={<Navigate to="/errorPage" />} />
         </Routes>
       </ProtectedRoute>
     </Suspense>

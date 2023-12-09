@@ -6,6 +6,7 @@ import { Modal } from "antd";
 import RouterFlow from "../routes/RouterFlow";
 import Header from "../components/dashboard/Header";
 import Footer from "../components/dashboard/Footer";
+import Notification from "../components/common/Notification";
 
 const DashboardPage = () => {
   const setToken = useStoreActions((action) => action.user.setToken);
@@ -19,6 +20,7 @@ const DashboardPage = () => {
   const handleOk = () => {
     setToken(null);
     setModalOpen(false);
+    Notification.success("Log out Successfully!");
     navigate("/signIn");
   };
 

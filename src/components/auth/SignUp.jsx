@@ -1,28 +1,36 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useStoreActions } from "easy-peasy";
+import Notification from "../common/Notification";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const createNewAccount = useStoreActions((action) => action.user.signUp);
-  const [data, setData] = useState({ name: "", email: "", password: "" });
+  const [data, setData] = useState({ name: "", email: "", password: "",confirmPassword:"" });
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (data.email == "" || data.password == "" || data.name == "") {
+    if (data.email == "" || data.password == "" || data.name == ""||data.confirmPassword=="") {
       setValidated(true);
       return;
     }
-    setValidated(false);
-    createNewAccount(data)
-      .then((res) => {
-        console.log("Sign up SuccessFully!", res);
-        navigate("/allBlogs");
-      })
-      .catch((err) => {
-        console.error("Sign up Error!", err);
-      });
+    if(data.password!=data.confirmPassword){
+      Notification.error("Password does not matches!")
+      return;
+    }
+    try {
+      createNewAccount(data)
+        .then(() => {
+          Notification.success("Sign up Successfully!");
+          navigate("/allBlogs");
+        })
+        .catch(() => {
+          Notification.error("Sign up Failed!");
+        });
+    } catch (err) {
+      Notification.warning('Error occured while Sign up!"');
+    }
   };
 
   return (
@@ -30,12 +38,13 @@ const SignUp = () => {
       <h2>Create New Account!</h2>
       <form
         onSubmit={handleSubmit}
+        onChange={() => setValidated(false)}
         className={validated ? "was-validated" : ""}
         noValidate
       >
         <div className="mb-3">
           <label htmlFor="name" className="form-label">
-            Name*
+            Name
           </label>
           <input
             placeholder="Enter name"
@@ -46,11 +55,10 @@ const SignUp = () => {
             id="email"
             required
           />
-          <div className="invalid-feedback">This field is required!</div>
         </div>
         <div className="mb-3">
           <label htmlFor="email" className="form-label">
-            Email*
+            Email
           </label>
           <input
             placeholder="Enter email"
@@ -61,11 +69,10 @@ const SignUp = () => {
             id="email"
             required
           />
-          <div className="invalid-feedback">This field is required!</div>
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">
-            Password*
+            Password
           </label>
           <input
             placeholder="Enter password"
@@ -76,7 +83,20 @@ const SignUp = () => {
             id="password"
             required
           />
-          <div className="invalid-feedback">This field is required!</div>
+        </div>
+        <div className="mb-3">
+          <label htmlFor="confirmPassword" className="form-label">
+            Confirm Password
+          </label>
+          <input
+            placeholder="Enter password"
+            type="password"
+            value={data.confirmPassword}
+            onChange={(e) => setData({ ...data, confirmPassword: e.target.value })}
+            className="form-control"
+            id="confirmPassword"
+            required
+          />
         </div>
         <div className="d-flex py-3 flex-column align-items-center">
           <Link to="/signIn">Already have an account?</Link>

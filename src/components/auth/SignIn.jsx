@@ -1,11 +1,13 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useStoreActions } from "easy-peasy";
+import Notification from "../common/Notification";
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const [validated, setValidated] = useState(false);
   const logIn = useStoreActions((action) => action.user.signIn);
+  const [validated, setValidated] = useState(false);
+  const [showPassword,setShowPassword] = useState(false)
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -17,16 +19,17 @@ const SignIn = () => {
       setValidated(true);
       return;
     }
-    setValidated(false);
     try {
       logIn(data)
         .then((res) => {
-          console.log("Login Successfully!", res);
+          Notification.success("Login Successfully!");
           navigate("/allBlogs");
         })
-        .catch((err) => console.error("Login Error!", err));
+        .catch((err) => {
+          Notification.error("Login Failed!");
+        });
     } catch (err) {
-      console.error(err);
+      Notification.warning("Error occured while Login!");
     }
   };
 
@@ -35,12 +38,13 @@ const SignIn = () => {
       <h2>Welcome to Login Page! </h2>
       <form
         onSubmit={handleSubmit}
+        onChange={() => setValidated(false)}
         className={validated ? "was-validated" : ""}
         noValidate
       >
         <div className="mb-3">
           <label htmlFor="email" className="form-label">
-            Email*
+            Email
           </label>
           <input
             placeholder="Enter email"
@@ -51,27 +55,31 @@ const SignIn = () => {
             id="email"
             required
           />
-          <div className="invalid-feedback">This field is required!</div>
         </div>
         <div className="mb-3">
           <label htmlFor="password" className="form-label">
-            Password*
+            Password
           </label>
           <input
             placeholder="Enter password"
-            type="password"
+            type={showPassword ? "text" : "password"}
             value={data.password}
             onChange={(e) => setData({ ...data, password: e.target.value })}
             className="form-control"
             id="password"
             required
           />
-          <div className="invalid-feedback">This field is required!</div>
         </div>
         <div className="mb-3 form-check">
-          <input type="checkbox" className="form-check-input" id="exampleCheck1" />
-          <label className="form-check-label" htmlFor="exampleCheck1">
-            Remember me
+          <input
+            type="checkbox"
+            className="form-check-input"
+            id="showPassword"
+            value={showPassword}
+            onClick={()=>setShowPassword(!showPassword)}
+          />
+          <label className="form-check-label" htmlFor="showPassword">
+            Show Password
           </label>
         </div>
         <div

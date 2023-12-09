@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Notification from "../common/Notification";
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
@@ -12,6 +13,7 @@ const ForgetPassword = () => {
       setValidated(true);
       return;
     }
+    Notification.success("OTP send Successfully!");
     setValidated(false);
     navigate("/signIn");
   };
@@ -21,12 +23,13 @@ const ForgetPassword = () => {
       <h2>Forget Password!</h2>
       <form
         onSubmit={handleSubmit}
+        onChange={() => setValidated(false)}
         className={validated ? "was-validated" : ""}
         noValidate
       >
         <div className="mb-3">
           <label htmlFor="email" className="form-label">
-            Email*
+            Email
           </label>
           <input
             placeholder="Enter email"
@@ -37,7 +40,6 @@ const ForgetPassword = () => {
             id="email"
             required
           />
-          <div className="invalid-feedback">This field is required!</div>
         </div>
         <button type="submit" className="btn btn-primary w-100 mt-4">
           Submit

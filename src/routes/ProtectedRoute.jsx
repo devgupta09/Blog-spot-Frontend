@@ -3,25 +3,26 @@ import routes from "./routes";
 
 const ProtectedRoute = (props) => {
   const authToken = localStorage.getItem("authToken");
+  const currentPath = window.location.pathname;
   const { children } = props;
 
-  const isValidRoute = routes.filter((route) => {
-    return route.path == window.location.pathname;
+  const isValidRoute = routes.find((route) => {
+    return route.path == currentPath;
   });
 
   if (window.location.pathname == "/") {
-    return <Navigate to={authToken ? "/allBlogs" : "/signIn"} />;
+    return <Navigate to={authToken ? "/allBlogs" : "/signIn"} replace />;
   }
 
-  if (!isValidRoute.length) {
-    return !authToken ? (
-      <Navigate to="/errorPage" replace />
-    ) : (
+  if (!isValidRoute) {
+    return authToken === "null" ? (
       <Navigate to="/signIn" replace />
+    ) : (
+      <Navigate to="/errorPage" replace />
     );
   }
 
-  if (!authToken) {
+  if (authToken === "null") {
     return <Navigate to="/signIn" replace />;
   }
 
