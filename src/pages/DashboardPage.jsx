@@ -43,12 +43,10 @@ const DashboardPage = () => {
         onCancel={() => setModalOpen(false)}
         maskClosable={false}
       >
-        Do you really want to log out?
+        Do you want to log out?
       </Modal>
-      <div className="content-container">
-        <RouterFlow />
-      </div>
-      <Footer />
+      <RouterFlow />
+      <Footer/>
     </div>
   );
 };

@@ -59,6 +59,51 @@ const BlogsModel = {
       });
     return response;
   }),
+
+  // Get Blog Details
+
+  getBlogDetails: thunk(async (action, payload) => {
+    const response = await http()
+      .put(`/getBlogDetails/${payload.id}`)
+      .then((res) => {
+        const { data } = res;
+        return new Promise((resolve, reject) => resolve(data));
+      })
+      .catch((err) => {
+        return new Promise((resolve, reject) => reject(err));
+      });
+    return response;
+  }),
+
+  // Update Blog Details
+
+  updateBlogDetails: thunk(async (action, payload) => {
+    const response = await http()
+      .put(`/updateBlog/${payload.id}`, payload.data)
+      .then((res) => {
+        const { data } = res;
+        return new Promise((resolve, reject) => resolve(data));
+      })
+      .catch((err) => {
+        return new Promise((resolve, reject) => reject(err));
+      });
+    return response;
+  }),
+
+  // Delete Blog
+
+  deleteBlog: thunk(async (action, payload) => {
+    const response = await http()
+      .delete(`/deleteBlog/${payload.id}`)
+      .then((res) => {
+        const { data } = res;
+        return new Promise((resolve, reject) => resolve(data));
+      })
+      .catch((err) => {
+        return new Promise((resolve, reject) => reject(err));
+      });
+    return response;
+  }),
 };
 
 export default BlogsModel;

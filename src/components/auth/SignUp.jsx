@@ -23,7 +23,7 @@ const SignUp = () => {
       createNewAccount(data)
         .then(() => {
           Notification.success("Sign up Successfully!");
-          navigate("/allBlogs");
+          navigate("/signIn");
         })
         .catch(() => {
           Notification.error("Sign up Failed!");

@@ -1,11 +1,10 @@
 import Container from "react-bootstrap/Container";
-import { Navbar, Nav, Button } from "react-bootstrap";
+import { Navbar, Nav } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { Dropdown, Image } from "antd";
+import { useStoreActions } from "easy-peasy";
 import brandLogo from "../../assets/brand-logo.png";
 import userImage from "../../assets/user-profile-picture.avif";
-import Notification from "../common/Notification";
-import { useStoreActions } from "easy-peasy";
 
 const Header = (props) => {
   const { showLogoutPopup } = props;
@@ -29,6 +28,9 @@ const Header = (props) => {
     },
     {
       key: "2",
+      onClick: () => {
+        navigate("/userDetails");
+      },
       label: (
         <div className="d-flex text-primary" style={{ gap: "5px" }}>
           <span
@@ -45,9 +47,6 @@ const Header = (props) => {
       key: "3",
       onClick: () => {
         logout();
-        // Notification.success("Log out Successfully!");
-        // setToken(null);
-        // navigate("/signIn");
       },
       label: (
         <div className="d-flex text-danger" style={{ gap: "5px" }}>
@@ -101,9 +100,6 @@ const Header = (props) => {
           </Nav.Link>
         </Nav>
         <Nav>
-          {/* <Button type="submit" onClick={logout}>
-            Log out
-          </Button> */}
           <Dropdown menu={{ items }} placement="bottomRight">
             <img
               src={userImage}

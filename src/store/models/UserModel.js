@@ -2,10 +2,12 @@ import { action, thunk } from "easy-peasy";
 import http from "../../utlis/htts";
 
 const UserModel = {
-  authToken: localStorage.getItem("authToken"),
+  auth: localStorage.getItem("auth")
+    ? JSON.parse(localStorage.getItem("auth"))
+    : {},
   setToken: action((state, payload) => {
-    state.authToken = payload;
-    localStorage.setItem("authToken", payload);
+    state.auth = payload;
+    localStorage.setItem("auth", JSON.stringify(payload));
   }),
 
   // Sign-in API call
@@ -15,7 +17,7 @@ const UserModel = {
       .post("auth/signIn", payload)
       .then((res) => {
         const { data } = res;
-        action.setToken(data.authToken);
+        action.setToken(data);
         return new Promise((resolve, reject) => resolve(data));
       })
       .catch((err) => {
@@ -31,12 +33,42 @@ const UserModel = {
       .post("auth/signUp", payload)
       .then((res) => {
         const { data } = res;
-        action.setToken(data.authToken);
+        // action.setToken(data);
         return new Promise((resolve, reject) => resolve(data));
       })
       .catch((err) => {
         return new Promise((resolve, reject) => reject(err));
       });
+  }),
+
+  // Get User Details
+
+  getUserDetails: thunk(async (action, payload) => {
+    const resolve = await http()
+      .get("auth/getUserDetails")
+      .then((res) => {
+        const { data } = res;
+        return new Promise((resolve, reject) => resolve(data));
+      })
+      .catch((err) => {
+        return new Promise((resolve, reject) => reject(err));
+      });
+    return resolve;
+  }),
+
+  // Update User Details
+
+  updateUserDetails: thunk(async (action, payload) => {
+    const resolve = await http()
+      .post("auth/updateUserDetails", payload)
+      .then((res) => {
+        const { data } = res;
+        return new Promise((resolve, reject) => resolve(data));
+      })
+      .catch((err) => {
+        return new Promise((resolve, reject) => reject(err));
+      });
+    return resolve;
   }),
 };
 

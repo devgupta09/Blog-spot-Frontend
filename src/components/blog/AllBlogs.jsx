@@ -1,80 +1,95 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useStoreActions, useStoreState } from "easy-peasy";
-import {
-  LiaAngleDoubleLeftSolid,
-  LiaAngleDoubleRightSolid,
-} from "react-icons/lia";
+import { Link } from "react-router-dom";
+import { Card } from "antd";
 import Notification from "../common/Notification";
 
 const AllBlogs = () => {
-  const [index, setIndex] = useState(0);
-  const [blogList, setBlogList] = useState([]);
-  const [blog, setBlog] = useState({});
-  const getAllBlogs = useStoreActions((action) => action.blog.getAllBlogs);
   const allBlogs = useStoreState((state) => state.blog.blogs);
+  const getAllBlogs = useStoreActions((action) => action.blog.getAllBlogs);
+  const [blogList, setBlogList] = useState(allBlogs);
 
-  const prevPage = () => {
-    if (index > 0) {
-      setIndex(index - 1);
-      document.getElementById("right").classList.remove("disable-btn");
-    }
-  };
-
-  const nextPage = () => {
-    if (index < blogList.length - 1) {
-      setIndex(index + 1);
-      document.getElementById("left").classList.remove("disable-btn");
-    }
+  const handleParaLength = (index, maxlength = 280) => {
+    let temp = [...blogList];
+    temp[index].maxLength = maxlength;
+    setBlogList([...temp]);
   };
 
   useEffect(() => {
     try {
       getAllBlogs()
         .then((res) => {
+          res.forEach((element, idx, tempArr) => {
+            tempArr[idx].maxLength = 280;
+          });
           setBlogList(res);
-          setBlog(res[index]);
         })
-        .catch((err) => {
-          console.error("Error while fetching blogs!", err);
+        .catch(() => {
+          Notification.error("Failed to fetching Blogs!");
         });
     } catch (err) {
-      Notification.error("Error while fetching Blogs!");
+      Notification.warning("Error while fetching Blogs!");
     }
   }, []);
 
-  useEffect(() => {
-    setBlog(blogList[index]);
-    if (index <= 0) {
-      document.getElementById("left").classList.add("disable-btn");
-      document.getElementById("right").classList.remove("disable-btn");
-    } else if (index >= blogList.length - 1) {
-      document.getElementById("right").classList.add("disable-btn");
-      document.getElementById("left").classList.remove("disable-btn");
-    }
-  }, [index]);
-
   return (
-    <div className="all-blogs-container">
-      <span className="sider" id="left" style={{ left: "10%" }}>
-        <LiaAngleDoubleLeftSolid onClick={prevPage} />
-      </span>
-      <span className="sider" id="right" style={{ right: "10%" }}>
-        <LiaAngleDoubleRightSolid onClick={nextPage} />
-      </span>
-      <div className="blogs-container">
-        <div className="blog-content" key={blogList.key}>
-          {blog?.title ? (
-            <>
-              <h3>{blog.title}</h3>
-              <p>{blog.description}</p>
-              <span>{`~ ${blog.author}`}</span>
-              <p className="page">{`${index + 1}/${blogList.length}`}</p>
-            </>
-          ) : (
-            <span>No Blogs Available</span>
-          )}
-        </div>
-      </div>
+    <div className="d-flex mx-4 my-4" style={{ gap: "20px", flexWrap: "wrap" }}>
+      {blogList.length ? (
+        blogList.map((blog, index) => {
+          return (
+            <Card
+              hoverable
+              style={{
+                width: "32%",
+                // height: "270px",
+              }}
+              key={index}
+            >
+              <h4
+                className="text-center"
+                style={{ textTransform: "capitalize" }}
+              >
+                {blog.title}
+              </h4>
+              <div
+                style={{
+                  minHeight: "70%",
+                }}
+              >
+                <p className="card-desc" id={`para-${index}`}>
+                  {blog.description.slice(0, blog.maxLength)}
+                  {blog.description.length > 280 &&
+                    (blog.maxLength == blog.description.length ? (
+                      <Link
+                        style={{ textDecoration: "none" }}
+                        onClick={() => handleParaLength(index)}
+                      >
+                        ...See less
+                      </Link>
+                    ) : (
+                      <Link
+                        style={{ textDecoration: "none" }}
+                        onClick={() =>
+                          handleParaLength(index, blog.description.length)
+                        }
+                      >
+                        ...See More
+                      </Link>
+                    ))}
+                </p>
+              </div>
+              <div
+                className="text-secondary"
+                style={{ float: "right", fontWeight: "500" }}
+              >
+                ~{blog.author}
+              </div>
+            </Card>
+          );
+        })
+      ) : (
+        <div>No blogs</div>
+      )}
     </div>
   );
 };

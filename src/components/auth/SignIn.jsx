@@ -22,7 +22,7 @@ const SignIn = () => {
     try {
       logIn(data)
         .then((res) => {
-          Notification.success("Login Successfully!");
+          // Notification.success("Login Successfully!");
           navigate("/allBlogs");
         })
         .catch((err) => {

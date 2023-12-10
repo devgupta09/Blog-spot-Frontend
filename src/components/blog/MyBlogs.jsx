@@ -1,30 +1,39 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useStoreActions, useStoreState } from "easy-peasy";
-import {
-  LiaAngleDoubleLeftSolid,
-  LiaAngleDoubleRightSolid,
-} from "react-icons/lia";
+import { Link, useNavigate } from "react-router-dom";
+import { Card, Modal, Tooltip } from "antd";
+import { AiFillExclamationCircle } from "react-icons/ai";
 import Notification from "../common/Notification";
 
 const MyBlogs = () => {
-  const [index, setIndex] = useState(0);
-  const [blogList, setBlogList] = useState([]);
-  const [blog, setBlog] = useState({});
-  const getMyBlogs = useStoreActions((action) => action.blog.getMyBlogs);
   const allBlogs = useStoreState((state) => state.blog.blogs);
+  const getMyBlogs = useStoreActions((action) => action.blog.getMyBlogs);
+  const deleteBlog = useStoreActions((action) => action.blog.deleteBlog);
+  const [deleteId, setDeleteId] = useState();
+  const [blogList, setBlogList] = useState(allBlogs);
+  const [modalOpen, setModalOpen] = useState(false);
+  const navigate = useNavigate();
 
-  const prevPage = () => {
-    if (index > 0) {
-      setIndex(index - 1);
-      document.getElementById("right").classList.remove("disable-btn");
+  const handleOk = () => {
+    setModalOpen(false);
+    try {
+      deleteBlog({ id: deleteId })
+        .then(() => {
+          Notification.success("Blog deleted Successfully!");
+          navigate("/myBlogs");
+        })
+        .catch(() => {
+          Notification.error("Failed to Delete Blog!");
+        });
+    } catch (err) {
+      Notification.warning("Error occured while Deleting Blog!");
     }
   };
 
-  const nextPage = () => {
-    if (index < blogList.length - 1) {
-      setIndex(index + 1);
-      document.getElementById("left").classList.remove("disable-btn");
-    }
+  const handleParaLength = (index, maxlength = 280) => {
+    let temp = [...blogList];
+    temp[index].maxLength = maxlength;
+    setBlogList([...temp]);
   };
 
   useEffect(() => {
@@ -32,7 +41,6 @@ const MyBlogs = () => {
       getMyBlogs()
         .then((res) => {
           setBlogList(res);
-          setBlog(res[index]);
         })
         .catch((err) => {
           console.error("Error while fetching blogs!", err);
@@ -42,39 +50,105 @@ const MyBlogs = () => {
     }
   }, []);
 
-  useEffect(() => {
-    setBlog(blogList[index]);
-    if (index <= 0) {
-      document.getElementById("left").classList.add("disable-btn");
-      document.getElementById("right").classList.remove("disable-btn");
-    } else if (index >= blogList.length - 1) {
-      document.getElementById("right").classList.add("disable-btn");
-      document.getElementById("left").classList.remove("disable-btn");
-    }
-  }, [index]);
-
   return (
-    <div className="all-blogs-container">
-      <span className="sider" id="left" style={{ left: "10%" }}>
-        <LiaAngleDoubleLeftSolid onClick={prevPage} />
-      </span>
-      <span className="sider" id="right" style={{ right: "10%" }}>
-        <LiaAngleDoubleRightSolid onClick={nextPage} />
-      </span>
-      <div className="blogs-container">
-        <div className="blog-content" key={blogList.key}>
-          {blog?.title ? (
-            <>
-              <h3>{blog.title}</h3>
-              <p>{blog.description}</p>
-              <span>{`~ ${blog.author}`}</span>
-              <p className="page">{`${index + 1}/${blogList.length}`}</p>
-            </>
-          ) : (
-            <span>No Blogs Available</span>
-          )}
-        </div>
-      </div>
+    <div className="d-flex mx-4 my-4" style={{ gap: "20px", flexWrap: "wrap" }}>
+      <Modal
+        title={
+          <span style={{ color: "red" }}>
+            <AiFillExclamationCircle size={25} style={{ color: "#faad14" }} />
+            {` Delete !`}
+          </span>
+        }
+        style={{
+          top: "20vh",
+          height: "400px",
+        }}
+        open={modalOpen}
+        onOk={handleOk}
+        onCancel={() => setModalOpen(false)}
+        maskClosable={false}
+      >
+        Do you want to delete this blog?
+      </Modal>
+      {blogList.length ? (
+        blogList.map((blog, index) => {
+          return (
+            <Card
+              hoverable
+              style={{
+                width: "32%",
+                // height: "270px",
+              }}
+              key={index}
+            >
+              <div style={{ float: "right" }}>
+                <Tooltip placement="bottom" title="Edit">
+                  <span
+                    className="material-symbols-outlined text-primary"
+                    style={{ fontSize: "20px" }}
+                    onClick={() => navigate(`/editBlog/${blog._id}`)}
+                  >
+                    edit_square
+                  </span>
+                </Tooltip>
+                <Tooltip placement="bottom" title="Delete">
+                  <span
+                    className="material-symbols-outlined text-danger"
+                    style={{ fontSize: "20px" }}
+                    onClick={() => {
+                      setDeleteId(blog._id);
+                      setModalOpen(true);
+                    }}
+                  >
+                    delete
+                  </span>
+                </Tooltip>
+              </div>
+              <h4
+                className="text-center"
+                style={{ textTransform: "capitalize" }}
+              >
+                {blog.title}
+              </h4>
+              <div
+                style={{
+                  minHeight: "75%",
+                }}
+              >
+                <p className="card-desc" id={`para-${index}`}>
+                  {blog.description.slice(0, blog.maxLength)}
+                  {blog.description.length > 280 &&
+                    (blog.maxLength == blog.description.length ? (
+                      <Link
+                        style={{ textDecoration: "none" }}
+                        onClick={() => handleParaLength(index)}
+                      >
+                        ...See less
+                      </Link>
+                    ) : (
+                      <Link
+                        style={{ textDecoration: "none" }}
+                        onClick={() =>
+                          handleParaLength(index, blog.description.length)
+                        }
+                      >
+                        ...See More
+                      </Link>
+                    ))}
+                </p>
+              </div>
+              <div
+                className="text-secondary"
+                style={{ float: "right", fontWeight: "500" }}
+              >
+                ~{blog.author}
+              </div>
+            </Card>
+          );
+        })
+      ) : (
+        <div>No blogs</div>
+      )}
     </div>
   );
 };
