@@ -16,6 +16,7 @@ const UserDetails = () => {
     email: "",
     password: "",
     description: "",
+    totalBlogs: 0,
   });
 
   const handleSubmit = (event) => {
@@ -38,12 +39,7 @@ const UserDetails = () => {
     try {
       getUserDetails()
         .then((res) => {
-          setData({
-            ...data,
-            name: res?.name,
-            email: res?.email,
-            description: res?.description,
-          });
+          setData({ ...res });
         })
         .catch(() => {
           Notification.error("Failed to fetching User Details!");
@@ -69,6 +65,12 @@ const UserDetails = () => {
             }}
           />
           <h3 className="mt-4 text-center text-secondary">{data.name}</h3>
+
+          <div className="my-5">
+            <div className="total-blogs-container">
+                Total Blogs Submitted <span>{data.totalBlogs}</span>
+            </div>
+          </div>
         </div>
         <div className=" " style={{ width: "70%" }}>
           {!isEdit && (
@@ -166,7 +168,7 @@ const UserDetails = () => {
             </div>
             {isEdit && (
               <button type="submit" className="btn btn-primary w-100 mt-4">
-                Save
+                Save changes
               </button>
             )}
           </form>

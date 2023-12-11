@@ -20,7 +20,7 @@ const ProtectedRoute = (props) => {
 
   if (timeDiff > 30 * 60 * 1000) {
     setToken(null);
-    Notification.error("Session Expired, Please Sign-in Again!");
+    Notification.error("Session Time out, Please Try Again!");
     return <Navigate to="/signIn" replace />;
   }
 

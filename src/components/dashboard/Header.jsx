@@ -2,27 +2,29 @@ import Container from "react-bootstrap/Container";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { Dropdown, Image } from "antd";
-import { useStoreActions } from "easy-peasy";
 import brandLogo from "../../assets/brand-logo.png";
 import userImage from "../../assets/user-profile-picture.avif";
 
 const Header = (props) => {
-  const { showLogoutPopup } = props;
+  const userName = JSON.parse(localStorage.getItem("auth")).name;
   const path = window.location.pathname;
-  const setToken = useStoreActions((action) => action.user.setToken);
+  const { showLogoutPopup } = props;
   const navigate = useNavigate();
   const items = [
     {
       key: "1",
       label: (
-        <div className="d-flex text-secondary" style={{ gap: "5px" }}>
+        <div
+          className="d-flex text-secondary"
+          style={{ gap: "5px", fontWeight: "600" }}
+        >
           <span
             className="material-symbols-outlined"
             style={{ height: "15px" }}
           >
             person
           </span>
-          <span>User Name</span>
+          <span>{userName}</span>
         </div>
       ),
     },
@@ -39,7 +41,7 @@ const Header = (props) => {
           >
             edit_square
           </span>
-          <span>Edit Profile</span>
+          <span> Profile</span>
         </div>
       ),
     },
