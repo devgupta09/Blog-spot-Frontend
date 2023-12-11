@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { Link, useNavigate } from "react-router-dom";
 import { Card, Modal, Tooltip } from "antd";
-import { AiFillExclamationCircle } from "react-icons/ai";
+import NoPreviewPage from "./NoPreviewPage";
 import Notification from "../common/Notification";
+import "./style.scss";
 
 const MyBlogs = () => {
   const allBlogs = useStoreState((state) => state.blog.blogs);
@@ -54,8 +55,13 @@ const MyBlogs = () => {
     <div className="d-flex mx-4 my-4" style={{ gap: "20px", flexWrap: "wrap" }}>
       <Modal
         title={
-          <span style={{ color: "red" }}>
-            <AiFillExclamationCircle size={25} style={{ color: "#faad14" }} />
+          <span style={{ color: "" }}>
+            <span
+              class="material-symbols-outlined"
+              style={{ color: "#faad14", fontSize: "25px" }}
+            >
+              gpp_maybe
+            </span>
             {` Delete !`}
           </span>
         }
@@ -115,7 +121,7 @@ const MyBlogs = () => {
                   minHeight: "75%",
                 }}
               >
-                <p className="card-desc" id={`para-${index}`}>
+                <p id={`para-${index}`} style={{ wordBreak: "break-word" }}>
                   {blog.description.slice(0, blog.maxLength)}
                   {blog.description.length > 280 &&
                     (blog.maxLength == blog.description.length ? (
@@ -123,7 +129,7 @@ const MyBlogs = () => {
                         style={{ textDecoration: "none" }}
                         onClick={() => handleParaLength(index)}
                       >
-                        ...See less
+                        See less
                       </Link>
                     ) : (
                       <Link
@@ -147,7 +153,7 @@ const MyBlogs = () => {
           );
         })
       ) : (
-        <div>No blogs</div>
+        <NoPreviewPage />
       )}
     </div>
   );

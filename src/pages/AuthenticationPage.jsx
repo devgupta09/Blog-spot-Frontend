@@ -4,6 +4,7 @@ import ForgetPassword from "../components/auth/ForgetPassword";
 import DashboardPage from "./DashboardPage";
 import SignUp from "../components/auth/SignUp";
 import SignIn from "../components/auth/SignIn";
+import "./style.scss";
 
 const AuthenticationPage = () => {
   return (

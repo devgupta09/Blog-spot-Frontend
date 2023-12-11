@@ -2,21 +2,32 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useStoreActions } from "easy-peasy";
 import Notification from "../common/Notification";
+import "./style.scss";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const createNewAccount = useStoreActions((action) => action.user.signUp);
-  const [data, setData] = useState({ name: "", email: "", password: "",confirmPassword:"" });
+  const [data, setData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (data.email == "" || data.password == "" || data.name == ""||data.confirmPassword=="") {
+    if (
+      data.email == "" ||
+      data.password == "" ||
+      data.name == "" ||
+      data.confirmPassword == ""
+    ) {
       setValidated(true);
       return;
     }
-    if(data.password!=data.confirmPassword){
-      Notification.error("Password does not matches!")
+    if (data.password != data.confirmPassword) {
+      Notification.error("Password does not matches!");
       return;
     }
     try {
@@ -34,7 +45,7 @@ const SignUp = () => {
   };
 
   return (
-    <div className="form-container">
+    <div className="form-container" style={{ minWidth: "40%" }}>
       <h2>Create New Account!</h2>
       <form
         onSubmit={handleSubmit}
@@ -92,7 +103,9 @@ const SignUp = () => {
             placeholder="Enter password"
             type="password"
             value={data.confirmPassword}
-            onChange={(e) => setData({ ...data, confirmPassword: e.target.value })}
+            onChange={(e) =>
+              setData({ ...data, confirmPassword: e.target.value })
+            }
             className="form-control"
             id="confirmPassword"
             required

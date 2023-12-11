@@ -2,12 +2,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useStoreActions } from "easy-peasy";
 import Notification from "../common/Notification";
+import "./style.scss";
 
 const SignIn = () => {
   const navigate = useNavigate();
   const logIn = useStoreActions((action) => action.user.signIn);
   const [validated, setValidated] = useState(false);
-  const [showPassword,setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({
     email: "",
     password: "",
@@ -21,11 +22,11 @@ const SignIn = () => {
     }
     try {
       logIn(data)
-        .then((res) => {
+        .then(() => {
           // Notification.success("Login Successfully!");
           navigate("/allBlogs");
         })
-        .catch((err) => {
+        .catch(() => {
           Notification.error("Login Failed!");
         });
     } catch (err) {
@@ -76,7 +77,7 @@ const SignIn = () => {
             className="form-check-input"
             id="showPassword"
             value={showPassword}
-            onClick={()=>setShowPassword(!showPassword)}
+            onClick={() => setShowPassword(!showPassword)}
           />
           <label className="form-check-label" htmlFor="showPassword">
             Show Password

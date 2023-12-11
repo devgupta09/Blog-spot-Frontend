@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import userImage from "../../assets/user-profile-picture.avif";
 import { useStoreActions } from "easy-peasy";
+import userImage from "../../assets/user-profile-picture.avif";
 import Notification from "../common/Notification";
+import "./style.scss";
 
 const UserDetails = () => {
   const [isEdit, setIsEdit] = useState(false);
@@ -23,11 +24,11 @@ const UserDetails = () => {
     event.preventDefault();
     try {
       updateUserDetails(data)
-        .then((res) => {
+        .then(() => {
           Notification.success("Profile Updated Successfully!");
           setIsEdit(false);
         })
-        .catch((err) => {
+        .catch(() => {
           Notification.error("Failed to Updated Profile!");
         });
     } catch (err) {
@@ -68,11 +69,11 @@ const UserDetails = () => {
 
           <div className="my-5">
             <div className="total-blogs-container">
-                Total Blogs Submitted <span>{data.totalBlogs}</span>
+              Total Blogs Submitted <span>{data.totalBlogs}</span>
             </div>
           </div>
         </div>
-        <div className=" " style={{ width: "70%" }}>
+        <div style={{ width: "70%" }}>
           {!isEdit && (
             <div
               className="edit-profile-btn"
@@ -87,13 +88,17 @@ const UserDetails = () => {
               Edit Profile
             </div>
           )}
-          <form className="profile-details-container" onSubmit={handleSubmit}>
+          <form
+            className="profile-details-container"
+            onSubmit={handleSubmit}
+            style={{ margin: "30px 100px" }}
+          >
             <div className="mb-3">
-              <label htmlFor="title" className="form-label">
+              <label htmlFor="name" className="form-label">
                 Name
               </label>
               <input
-                id="title"
+                id="name"
                 placeholder="Enter Title"
                 type="text"
                 value={data.name}
@@ -104,11 +109,11 @@ const UserDetails = () => {
               />
             </div>
             <div className="mb-3">
-              <label htmlFor="title" className="form-label">
+              <label htmlFor="email" className="form-label">
                 Email
               </label>
               <input
-                id="title"
+                id="email"
                 placeholder="Enter Title"
                 type="text"
                 value={data.email}
@@ -118,19 +123,6 @@ const UserDetails = () => {
                 disabled
               />
             </div>
-            {/* <div className="mb-3">
-              <label htmlFor="title" className="form-label">
-                Blogs Submitted
-              </label>
-              <input
-                id="title"
-                placeholder="Enter Title"
-                type="text"
-                value={data.totalBlogs}
-                className="form-control"
-                disabled
-              />
-            </div> */}
             <div className="mb-3">
               <label htmlFor="password" className="form-label">
                 Password

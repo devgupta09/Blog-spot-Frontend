@@ -1,0 +1,18 @@
+.loader {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  .ant-spin-dot-item {
+    background-color: #555557;
+  }
+}
+
+.ant-spin {
+  max-height: 100vh !important;
+}
+
+.ant-spin-text {
+  font-size: 20px !important;
+  font-weight: 500;
+  color: #555557;
+}

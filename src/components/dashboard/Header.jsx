@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Dropdown, Image } from "antd";
 import brandLogo from "../../assets/brand-logo.png";
 import userImage from "../../assets/user-profile-picture.avif";
+import "./style.scss";
 
 const Header = (props) => {
   const userName = JSON.parse(localStorage.getItem("auth")).name;
@@ -69,7 +70,12 @@ const Header = (props) => {
   };
 
   return (
-    <Navbar bg="primary" data-bs-theme="dark" sticky="top" className="bg-theme">
+    <Navbar
+      bg="primary"
+      data-bs-theme="dark"
+      sticky="top"
+      className="header-theme"
+    >
       <Image
         src={brandLogo}
         width={40}

@@ -1,4 +1,5 @@
 import { Spin } from "antd";
+import "./style.scss";
 
 const Loader = (props) => {
   const { children, isLoading } = props;

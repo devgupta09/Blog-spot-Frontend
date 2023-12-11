@@ -1,0 +1,41 @@
+.blog-form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 85vh;
+  .blog-container {
+    background-color: white;
+    width: 50%;
+    border-radius: 10px;
+    padding: 20px 30px;
+    margin: 0 25% 0 25%;
+    display: flex;
+    flex-direction: column;
+    // height: 100%;
+    box-shadow: 0 0 8px 2px #888;
+
+    h2 {
+      text-align: center;
+    }
+
+    .form-page {
+      display: flex;
+      flex-direction: column;
+      gap: 5%;
+
+      label {
+        font-size: 18px;
+        font-weight: 400;
+      }
+
+      .form-check-input {
+        padding: 10px;
+        margin-right: 10px;
+      }
+
+      .link {
+        text-align: center;
+      }
+    }
+  }
+}

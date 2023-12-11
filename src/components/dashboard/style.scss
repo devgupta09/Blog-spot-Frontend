@@ -1,0 +1,37 @@
+.header-theme {
+  // height: 8vh;
+  font-size: 20px;
+  font-weight: 500;
+  background: linear-gradient(to left, #ab83e0, #7658e3);
+  .btn {
+    background: #5e3ed5b5;
+    border: none;
+    font-size: 20px;
+    font-weight: 500;
+    box-shadow: 0 0 5px 2px #b29de1;
+    background: linear-gradient(to left top, #8226fa, #8e7ad7);
+
+    &:hover {
+      transform: scale(1.1);
+    }
+
+    &:active {
+      background: linear-gradient(to left top, #8226fa, #8e7ad7);
+    }
+  }
+}
+
+.footer {
+  background: linear-gradient(to bottom, #8b8989, #555557);
+  // height: 10vh;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 5px;
+  background-color: #45a1ff;
+  color: #f5f5f5;
+  // font-size: 20px;
+  padding-top: 10px;
+  font-weight: 500;
+}

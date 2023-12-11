@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useStoreActions } from "easy-peasy";
 import { useNavigate, useParams } from "react-router-dom";
 import Notification from "../common/Notification";
+import "./style.scss";
 
 const AddBlog = () => {
   const [validated, setValidated] = useState(false);
@@ -36,10 +37,10 @@ const AddBlog = () => {
 
   const updateBlog = () => {
     try {
-      updateBlogDetails({id,data})
+      updateBlogDetails({ id, data })
         .then(() => {
           Notification.success("Blog Updated Successfully!");
-          navigate('/myBlogs')
+          navigate("/myBlogs");
         })
         .catch(() => {
           Notification.error("Failed to Adding Blog!");
@@ -55,7 +56,7 @@ const AddBlog = () => {
       setValidated(true);
       return;
     }
-    id?updateBlog():addBlog()
+    id ? updateBlog() : addBlog();
   };
 
   useEffect(() => {

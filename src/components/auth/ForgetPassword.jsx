@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Notification from "../common/Notification";
+import "./style.scss";
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
@@ -19,7 +20,7 @@ const ForgetPassword = () => {
   };
 
   return (
-    <div className="form-container">
+    <div className="form-container" style={{ minWidth: "30%" }}>
       <h2>Forget Password!</h2>
       <form
         onSubmit={handleSubmit}

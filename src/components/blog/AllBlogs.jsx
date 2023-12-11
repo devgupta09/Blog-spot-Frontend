@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { Link } from "react-router-dom";
 import { Card } from "antd";
+import NoPreviewPage from "./NoPreviewPage";
 import Notification from "../common/Notification";
+import "./style.scss";
 
 const AllBlogs = () => {
   const allBlogs = useStoreState((state) => state.blog.blogs);
@@ -56,7 +58,7 @@ const AllBlogs = () => {
                   minHeight: "70%",
                 }}
               >
-                <p className="card-desc" id={`para-${index}`}>
+                <p id={`para-${index}`} style={{ wordBreak: "break-word" }}>
                   {blog.description.slice(0, blog.maxLength)}
                   {blog.description.length > 280 &&
                     (blog.maxLength == blog.description.length ? (
@@ -64,7 +66,7 @@ const AllBlogs = () => {
                         style={{ textDecoration: "none" }}
                         onClick={() => handleParaLength(index)}
                       >
-                        ...See less
+                        See less
                       </Link>
                     ) : (
                       <Link
@@ -88,7 +90,7 @@ const AllBlogs = () => {
           );
         })
       ) : (
-        <div>No blogs</div>
+        <NoPreviewPage />
       )}
     </div>
   );

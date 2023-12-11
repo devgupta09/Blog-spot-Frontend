@@ -1,28 +1,28 @@
-import { notification } from "antd";
+import { message } from "antd";
 
 const Notification = {
-  success: (message) => {
-    notification.open({
+  success: (content) => {
+    message.open({
       type: "success",
       duration: 10,
       message: "Success",
-      description: message,
+      content: content,
     });
   },
-  error: (message) => {
-    notification.open({
+  error: (content) => {
+    message.open({
       type: "error",
       duration: 10,
       message: "Error",
-      description: message,
+      content: content,
     });
   },
-  warning: (message) => {
-    notification.open({
+  warning: (content) => {
+    message.open({
       type: "warning",
       duration: 10,
       message: "Warning",
-      description: message,
+      content: content,
     });
   },
 };
