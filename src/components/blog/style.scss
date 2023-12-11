@@ -39,3 +39,15 @@
     }
   }
 }
+
+.no-blogs {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 80vh;
+}
+
+.ant-result-icon .anticon{
+  color: #9773e2 !important;
+}

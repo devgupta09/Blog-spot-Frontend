@@ -4,7 +4,7 @@ const UserDeatils = React.lazy(() => import("../components/auth/UserDetails"));
 const AddBlog = React.lazy(() => import("../components/blog/AddBlog"));
 const AllBlogs = React.lazy(() => import("../components/blog/AllBlogs"));
 const MyBlogs = React.lazy(() => import("../components/blog/MyBlogs"));
-const ErrorPage = React.lazy(() => import("../components/common/Page404"));
+const ErrorPage = React.lazy(() => import("../components/common/ErrorPage"));
 
 const routes = [
   { path: "/userDetails", name: "UserDeatils", element: UserDeatils },

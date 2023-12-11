@@ -1,8 +1,9 @@
-import { Result } from "antd";
-import { Button } from "react-bootstrap";
+import React from "react";
 import { useNavigate } from "react-router-dom";
+import { Button, Result } from "antd";
 
-const Page404 = () => {
+
+const ErrorPage = () => {
   const navigate = useNavigate();
 
   const goHome = () => {
@@ -12,15 +13,16 @@ const Page404 = () => {
   return (
     <Result
       status="404"
-      title="404"
+      title="Invalid Page"
       subTitle="Sorry, the page you visited does not exist."
       extra={
-        <Button type="submit" onClick={goHome}>
-          Back Home
+        <Button type="primary" onClick={goHome}>
+          Back to Dashboard
         </Button>
       }
+      style={{ minHeight: "85vh" }}
     />
   );
 };
 
-export default Page404;
+export default React.memo(ErrorPage);

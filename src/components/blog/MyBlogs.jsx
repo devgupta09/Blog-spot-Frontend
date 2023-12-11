@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { Link, useNavigate } from "react-router-dom";
 import { Card, Modal, Tooltip } from "antd";
-import NoPreviewPage from "./NoPreviewPage";
+import NoBlogsAvailable from "./NoBlogsAvailable";
 import Notification from "../common/Notification";
 import "./style.scss";
 
@@ -153,7 +153,7 @@ const MyBlogs = () => {
           );
         })
       ) : (
-        <NoPreviewPage />
+        <NoBlogsAvailable />
       )}
     </div>
   );
