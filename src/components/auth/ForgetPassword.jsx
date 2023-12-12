@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Notification from "../common/Notification";
 import "./style.scss";
@@ -50,4 +50,4 @@ const ForgetPassword = () => {
   );
 };
 
-export default ForgetPassword;
+export default React.memo(ForgetPassword);

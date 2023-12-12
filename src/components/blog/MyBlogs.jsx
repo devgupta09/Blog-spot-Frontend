@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useStoreActions, useStoreState } from "easy-peasy";
 import { Link, useNavigate } from "react-router-dom";
-import { Card, Modal, Tooltip } from "antd";
+import { Card, Tooltip } from "antd";
 import NoBlogsAvailable from "./NoBlogsAvailable";
+import DeleteModal from "./DeleteModal";
 import Notification from "../common/Notification";
 import "./style.scss";
 
@@ -37,45 +38,26 @@ const MyBlogs = () => {
     setBlogList([...temp]);
   };
 
-  useEffect(() => {
+  const handleGetMyBlogs = async () => {
     try {
       getMyBlogs()
         .then((res) => {
           setBlogList(res);
         })
-        .catch((err) => {
-          console.error("Error while fetching blogs!", err);
+        .catch(() => {
+          Notification.error("Failed to fetching Blogs!");
         });
     } catch (err) {
-      Notification.error("Error while fetching Blogs!");
+      Notification.warning("Error while fetching Blogs!");
     }
+  };
+
+  useEffect(() => {
+    handleGetMyBlogs();
   }, []);
 
   return (
     <div className="d-flex mx-4 my-4" style={{ gap: "20px", flexWrap: "wrap" }}>
-      <Modal
-        title={
-          <span style={{ color: "" }}>
-            <span
-              class="material-symbols-outlined"
-              style={{ color: "#faad14", fontSize: "25px" }}
-            >
-              gpp_maybe
-            </span>
-            {` Delete !`}
-          </span>
-        }
-        style={{
-          top: "20vh",
-          height: "400px",
-        }}
-        open={modalOpen}
-        onOk={handleOk}
-        onCancel={() => setModalOpen(false)}
-        maskClosable={false}
-      >
-        Do you want to delete this blog?
-      </Modal>
       {blogList.length ? (
         blogList.map((blog, index) => {
           return (
@@ -155,8 +137,13 @@ const MyBlogs = () => {
       ) : (
         <NoBlogsAvailable />
       )}
+      <DeleteModal
+        modalOpen={modalOpen}
+        setModalOpen={setModalOpen}
+        handleOk={handleOk}
+      />
     </div>
   );
 };
 
-export default MyBlogs;
+export default React.memo(MyBlogs);

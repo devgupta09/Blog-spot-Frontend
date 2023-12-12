@@ -22,6 +22,10 @@ const UserDetails = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    handleUpdateUserDetails();
+  };
+
+  const handleUpdateUserDetails = async () => {
     try {
       updateUserDetails(data)
         .then(() => {
@@ -36,7 +40,7 @@ const UserDetails = () => {
     }
   };
 
-  useEffect(() => {
+  const handleGetUserDetails = async () => {
     try {
       getUserDetails()
         .then((res) => {
@@ -48,6 +52,10 @@ const UserDetails = () => {
     } catch (err) {
       Notification.warning("Error while fetching User Details!");
     }
+  };
+
+  useEffect(() => {
+    handleGetUserDetails();
   }, []);
 
   return (
@@ -170,4 +178,4 @@ const UserDetails = () => {
   );
 };
 
-export default UserDetails;
+export default React.memo(UserDetails);

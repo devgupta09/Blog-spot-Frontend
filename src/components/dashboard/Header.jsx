@@ -1,7 +1,8 @@
-import Container from "react-bootstrap/Container";
+import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { Dropdown, Image } from "antd";
+import Container from "react-bootstrap/Container";
 import brandLogo from "../../assets/brand-logo.png";
 import userImage from "../../assets/user-profile-picture.avif";
 import "./style.scss";
@@ -126,4 +127,4 @@ const Header = (props) => {
   );
 };
 
-export default Header;
+export default React.memo(Header);

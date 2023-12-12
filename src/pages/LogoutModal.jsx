@@ -2,6 +2,7 @@ import { Modal } from "antd";
 import { useStoreActions } from "easy-peasy";
 import { useNavigate } from "react-router-dom";
 import Notification from "../components/common/Notification";
+import React from "react";
 
 const LogoutModal = (props) => {
   const setToken = useStoreActions((action) => action.user.setToken);
@@ -42,4 +43,4 @@ const LogoutModal = (props) => {
   );
 };
 
-export default LogoutModal;
+export default React.memo(LogoutModal);

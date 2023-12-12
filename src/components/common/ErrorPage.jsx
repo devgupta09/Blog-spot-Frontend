@@ -2,7 +2,6 @@ import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Result } from "antd";
 
-
 const ErrorPage = () => {
   const navigate = useNavigate();
 
@@ -13,7 +12,7 @@ const ErrorPage = () => {
   return (
     <Result
       status="404"
-      title="Invalid Page"
+      title="Page not found!"
       subTitle="Sorry, the page you visited does not exist."
       extra={
         <Button type="primary" onClick={goHome}>

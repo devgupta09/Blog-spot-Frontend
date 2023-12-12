@@ -1,3 +1,4 @@
+import React from "react";
 import { Spin } from "antd";
 import "./style.scss";
 
@@ -16,4 +17,4 @@ const Loader = (props) => {
   );
 };
 
-export default Loader;
+export default React.memo(Loader);

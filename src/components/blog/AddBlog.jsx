@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useStoreActions } from "easy-peasy";
 import { useNavigate, useParams } from "react-router-dom";
 import Notification from "../common/Notification";
@@ -122,7 +122,7 @@ const AddBlog = () => {
             />
           </div>
           <button type="submit" className="btn btn-primary w-100 mt-4">
-            Submit
+            {id ? "Update Blog" : "Add Blog"}
           </button>
         </form>
       </div>
@@ -130,4 +130,4 @@ const AddBlog = () => {
   );
 };
 
-export default AddBlog;
+export default React.memo(AddBlog);

@@ -5,4 +5,4 @@ const Footer = () => {
   return <div className="footer">© 2023 Copyright: Blogspot</div>;
 };
 
-export default Footer;
+export default React.memo(Footer);

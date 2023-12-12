@@ -17,7 +17,7 @@ const AllBlogs = () => {
     setBlogList([...temp]);
   };
 
-  useEffect(() => {
+  const handleGetAllBlogs = async () => {
     try {
       getAllBlogs()
         .then((res) => {
@@ -32,6 +32,10 @@ const AllBlogs = () => {
     } catch (err) {
       Notification.warning("Error while fetching Blogs!");
     }
+  };
+
+  useEffect(() => {
+    handleGetAllBlogs();
   }, []);
 
   return (
@@ -96,4 +100,4 @@ const AllBlogs = () => {
   );
 };
 
-export default AllBlogs;
+export default React.memo(AllBlogs);
