@@ -1,25 +1,28 @@
+import React from "react";
 import { Navigate } from "react-router-dom";
 import { useStoreActions } from "easy-peasy";
+import ErrorPage from "../components/common/ErrorPage";
 import Notification from "../components/common/Notification";
 import routes from "./routes";
 
 const ProtectedRoute = (props) => {
   const auth = JSON.parse(localStorage.getItem("auth"));
   const setToken = useStoreActions((action) => action.user.setToken);
-  const currentPath = window.location.pathname;
-  const timeDiff = Date.now() - auth?.sessionTimeout;
   const { children } = props;
 
-  const isValidRoute = routes.find((route) => {
-    return route.path == currentPath;
-  });
+  const isValidRoute =
+    routes.filter(
+      (route) =>
+        route.path.toLowerCase() === window.location.pathname.toLowerCase()
+    ).length != 0;
 
   if (!auth) {
     return <Navigate to="/signIn" replace />;
   }
 
-  if (timeDiff > 30 * 60 * 1000) {
+  if (new Date().getTime() - auth?.sessionTimeout > 30 * 60 * 1000) {
     setToken(null);
+    localStorage.clear();
     Notification.error("Session Time out, Please Try Again!");
     return <Navigate to="/signIn" replace />;
   }
@@ -29,14 +32,10 @@ const ProtectedRoute = (props) => {
   }
 
   if (!isValidRoute) {
-    return auth ? (
-      <Navigate to="/errorPage" replace />
-    ) : (
-      <Navigate to="/signIn" replace />
-    );
+    return auth ? <ErrorPage /> : <Navigate to="/signIn" replace />;
   }
 
   return children;
 };
 
-export default ProtectedRoute;
+export default React.memo(ProtectedRoute);

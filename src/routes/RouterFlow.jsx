@@ -1,5 +1,5 @@
-import { Suspense } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import React, { Suspense } from "react";
+import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import routes from "./routes";
 
@@ -26,4 +26,4 @@ const RouterFlow = () => {
   );
 };
 
-export default RouterFlow;
+export default React.memo(RouterFlow);
