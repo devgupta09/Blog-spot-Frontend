@@ -1,5 +1,5 @@
 import React, { Suspense } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import ForgetPassword from "../components/auth/ForgetPassword";
 import DashboardPage from "./DashboardPage";
 import SignUp from "../components/auth/SignUp";
@@ -15,6 +15,7 @@ const AuthenticationPage = () => {
           <Route exact path="/signUp" element={<SignUp />} />
           <Route exact path="/forgetPassword" element={<ForgetPassword />} />
           <Route path="/*" element={<DashboardPage />} />
+          <Route path="/" element={<Navigate to="signIn" />} />
         </Routes>
       </Suspense>
     </div>

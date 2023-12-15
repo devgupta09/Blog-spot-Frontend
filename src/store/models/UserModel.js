@@ -1,5 +1,5 @@
 import { action, thunk } from "easy-peasy";
-import http from "../../utlis/htts";
+import http from "../../utlis/http";
 
 const UserModel = {
   auth: localStorage.getItem("auth")

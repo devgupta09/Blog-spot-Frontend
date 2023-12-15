@@ -1,5 +1,5 @@
 import { action, thunk } from "easy-peasy";
-import http from "../../utlis/htts";
+import http from "../../utlis/http";
 
 const BlogsModel = {
   blogs: [],
@@ -45,9 +45,7 @@ const BlogsModel = {
   // Add new blog API calling
 
   addNewBlog: thunk(async (action, payload) => {
-    const response = await http({
-      headers: { "Content-Type": "application/json" },
-    })
+    const response = await http()
       .post("/addBlog", payload)
       .then((res) => {
         const { data } = res;
