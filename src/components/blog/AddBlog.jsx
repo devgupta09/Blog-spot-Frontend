@@ -84,7 +84,7 @@ const AddBlog = () => {
   return (
     <div className="blog-form-container">
       <div className="blog-container">
-        <h2>Add New Blog! </h2>
+        <h2>{id ? "Edit Blog!" : "Add New Blog!"}</h2>
         <form
           onSubmit={handleSubmit}
           onChange={() => setValidated(false)}
