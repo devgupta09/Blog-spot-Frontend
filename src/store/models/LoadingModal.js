@@ -1,7 +1,7 @@
 import { action } from "easy-peasy";
 
 const BlogsModel = {
-  isLoading: true,
+  isLoading: false,
   setLoading: action((state, payload) => {
     state.isLoading = payload;
   }),
