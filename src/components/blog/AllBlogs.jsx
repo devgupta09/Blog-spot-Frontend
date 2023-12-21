@@ -7,6 +7,7 @@ import Notification from "../common/Notification";
 import "./style.scss";
 
 const AllBlogs = () => {
+  const setLoading = useStoreActions((action) => action.loading.setLoading);
   const allBlogs = useStoreState((state) => state.blog.blogs);
   const getAllBlogs = useStoreActions((action) => action.blog.getAllBlogs);
   const [blogList, setBlogList] = useState(allBlogs);
@@ -18,6 +19,7 @@ const AllBlogs = () => {
   };
 
   const handleGetAllBlogs = async () => {
+    setLoading(true);
     try {
       getAllBlogs()
         .then((res) => {
@@ -31,6 +33,8 @@ const AllBlogs = () => {
         });
     } catch (err) {
       Notification.warning("Error while fetching Blogs!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -39,7 +43,10 @@ const AllBlogs = () => {
   }, []);
 
   return (
-    <div className="d-flex mx-4 my-4" style={{ gap: "20px", flexWrap: "wrap" }}>
+    <div
+      className="d-flex mx-4 my-4"
+      style={{ gap: "20px", flexWrap: "wrap", minHeight: "80vh" }}
+    >
       {blogList.length ? (
         blogList.map((blog, index) => {
           return (
@@ -47,7 +54,6 @@ const AllBlogs = () => {
               hoverable
               style={{
                 width: "32%",
-                // height: "270px",
               }}
               key={index}
             >
