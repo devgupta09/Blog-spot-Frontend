@@ -83,7 +83,7 @@ const Header = (props) => {
         preview={false}
         style={{ marginLeft: "30px", cursor: "pointer" }}
       />
-      <Container>
+      <Container style={{ marginLeft: "20px" }}>
         <Nav className="me-auto">
           <Nav.Link
             to="/allBlogs"

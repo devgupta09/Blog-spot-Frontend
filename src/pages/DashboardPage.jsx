@@ -16,7 +16,9 @@ const DashboardPage = () => {
     <div className="main-container">
       <Header showLogoutPopup={showLogoutPopup} />
       <LogoutModal modalOpen={modalOpen} setModalOpen={setModalOpen} />
-      <RouterFlow />
+      <div className="content-container">
+        <RouterFlow />
+      </div>
       <Footer />
     </div>
   );

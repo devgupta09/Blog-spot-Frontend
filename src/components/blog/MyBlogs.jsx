@@ -28,7 +28,7 @@ const MyBlogs = () => {
       });
   };
 
-  const handleParaLength = (index, maxlength = 280) => {
+  const handleParaLength = (index, maxlength = 200) => {
     let temp = [...blogList];
     temp[index].maxLength = maxlength;
     setBlogList([...temp]);
@@ -59,17 +59,11 @@ const MyBlogs = () => {
     <Loader isLoading={isLoading}>
       <div
         className="d-flex mx-4 my-4"
-        style={{ gap: "20px", flexWrap: "wrap", minHeight: "80vh" }}
+        style={{ gap: "20px", flexWrap: "wrap" }}
       >
         {blogList?.map((blog, index) => {
           return (
-            <Card
-              hoverable
-              style={{
-                width: "32%",
-              }}
-              key={index}
-            >
+            <Card hoverable key={index}>
               <div style={{ float: "right" }}>
                 <Tooltip placement="bottom" title="Edit">
                   <span
@@ -101,12 +95,13 @@ const MyBlogs = () => {
               </h4>
               <div
                 style={{
-                  minHeight: "75%",
+                  height: "70%",
+                  overflowX: "auto",
                 }}
               >
                 <p id={`para-${index}`} style={{ wordBreak: "break-word" }}>
                   {blog.description.slice(0, blog.maxLength)}
-                  {blog.description.length > 280 &&
+                  {blog.description.length > 200 &&
                     (blog.maxLength == blog.description.length ? (
                       <Link
                         style={{ textDecoration: "none" }}

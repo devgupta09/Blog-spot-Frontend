@@ -11,7 +11,7 @@ const AllBlogs = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [blogList, setBlogList] = useState(null);
 
-  const handleParaLength = (index, maxlength = 280) => {
+  const handleParaLength = (index, maxlength = 250) => {
     let temp = [...blogList];
     temp[index].maxLength = maxlength;
     setBlogList([...temp]);
@@ -22,7 +22,7 @@ const AllBlogs = () => {
       .get("/getAllBlogs")
       .then((res) => {
         res.data.forEach((element, idx, tempArr) => {
-          tempArr[idx].maxLength = 280;
+          tempArr[idx].maxLength = 200;
         });
         setBlogList(res.data);
         setIsLoading(false);
@@ -45,17 +45,11 @@ const AllBlogs = () => {
     <Loader isLoading={isLoading}>
       <div
         className="d-flex mx-4 my-4"
-        style={{ gap: "20px", flexWrap: "wrap", minHeight: "80vh" }}
+        style={{ gap: "20px", flexWrap: "wrap" }}
       >
         {blogList?.map((blog, index) => {
           return (
-            <Card
-              hoverable
-              style={{
-                width: "32%",
-              }}
-              key={index}
-            >
+            <Card hoverable key={index}>
               <h4
                 className="text-center"
                 style={{ textTransform: "capitalize" }}
@@ -64,18 +58,19 @@ const AllBlogs = () => {
               </h4>
               <div
                 style={{
-                  minHeight: "70%",
+                  height: "70%",
+                  overflowX: "auto",
                 }}
               >
                 <p id={`para-${index}`} style={{ wordBreak: "break-word" }}>
                   {blog.description.slice(0, blog.maxLength)}
-                  {blog.description.length > 280 &&
+                  {blog.description.length > 200 &&
                     (blog.maxLength == blog.description.length ? (
                       <Link
                         style={{ textDecoration: "none" }}
                         onClick={() => handleParaLength(index)}
                       >
-                        See less
+                        {" See less"}
                       </Link>
                     ) : (
                       <Link
@@ -84,7 +79,7 @@ const AllBlogs = () => {
                           handleParaLength(index, blog.description.length)
                         }
                       >
-                        ...See More
+                        {"...See More"}
                       </Link>
                     ))}
                 </p>
