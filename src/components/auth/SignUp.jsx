@@ -1,13 +1,12 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useStoreActions } from "easy-peasy";
 import Notification from "../common/Notification";
+import http from "../../http";
 import "./style.scss";
 
 const SignUp = () => {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
-  const createNewAccount = useStoreActions((action) => action.user.signUp);
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -15,7 +14,23 @@ const SignUp = () => {
     confirmPassword: "",
   });
 
-  const handleSubmit = (event) => {
+  const createNewAccount = async () => {
+    try {
+      await http()
+        .post("auth/signUp", data)
+        .then(() => {
+          Notification.success("Account Created Successfully!");
+          navigate("/signIn");
+        })
+        .catch(() => {
+          Notification.error("Account creation Failed!");
+        });
+    } catch (err) {
+      Notification.warning('Error occured while Creating Account!"');
+    }
+  };
+
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (
       data.email == "" ||
@@ -30,18 +45,7 @@ const SignUp = () => {
       Notification.error("Password does not matches!");
       return;
     }
-    try {
-      createNewAccount(data)
-        .then(() => {
-          Notification.success("Sign up Successfully!");
-          navigate("/signIn");
-        })
-        .catch(() => {
-          Notification.error("Sign up Failed!");
-        });
-    } catch (err) {
-      Notification.warning('Error occured while Sign up!"');
-    }
+    createNewAccount();
   };
 
   return (

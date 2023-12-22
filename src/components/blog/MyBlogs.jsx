@@ -1,26 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { useStoreActions, useStoreState } from "easy-peasy";
 import { Link, useNavigate } from "react-router-dom";
 import { Card, Tooltip } from "antd";
 import NoBlogsAvailable from "./NoBlogsAvailable";
 import DeleteModal from "./DeleteModal";
 import Notification from "../common/Notification";
+import http from "../../http";
 import "./style.scss";
 
 const MyBlogs = () => {
-  const setLoading = useStoreActions((action) => action.loading.setLoading);
-  const allBlogs = useStoreState((state) => state.blog.blogs);
-  const getMyBlogs = useStoreActions((action) => action.blog.getMyBlogs);
-  const deleteBlog = useStoreActions((action) => action.blog.deleteBlog);
   const [deleteId, setDeleteId] = useState();
-  const [blogList, setBlogList] = useState(allBlogs);
+  const [blogList, setBlogList] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
-  const handleOk = () => {
+  const handleOk = async () => {
     setModalOpen(false);
     try {
-      deleteBlog({ id: deleteId })
+      await http()
+        .delete(`/deleteBlog/${deleteId}`)
         .then(() => {
           Notification.success("Blog deleted Successfully!");
           navigate("/myBlogs");
@@ -40,19 +37,17 @@ const MyBlogs = () => {
   };
 
   const handleGetMyBlogs = async () => {
-    setLoading(true);
     try {
-      getMyBlogs()
+      await http()
+        .get("/getMyBlogs")
         .then((res) => {
-          setBlogList(res);
+          setBlogList(res.data);
         })
         .catch(() => {
           Notification.error("Failed to fetching Blogs!");
         });
     } catch (err) {
       Notification.warning("Error while fetching Blogs!");
-    } finally {
-      setLoading(false);
     }
   };
 

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useStoreState } from "easy-peasy";
 import RouterFlow from "../routes/RouterFlow";
 import Header from "../components/dashboard/Header";
 import Footer from "../components/dashboard/Footer";
@@ -8,7 +7,6 @@ import LogoutModal from "./LogoutModal";
 import "./style.scss";
 
 const DashboardPage = () => {
-  const isLoading = useStoreState((state) => state.loading.isLoading);
   const [modalOpen, setModalOpen] = useState(false);
 
   const showLogoutPopup = () => {
@@ -16,7 +14,7 @@ const DashboardPage = () => {
   };
 
   return (
-    <Loader isLoading={isLoading}>
+    <Loader isLoading={false}>
       <div className="main-container">
         <Header showLogoutPopup={showLogoutPopup} />
         <LogoutModal modalOpen={modalOpen} setModalOpen={setModalOpen} />

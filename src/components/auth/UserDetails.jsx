@@ -1,17 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useStoreActions } from "easy-peasy";
 import userImage from "../../assets/user-profile-picture.avif";
 import Notification from "../common/Notification";
+import http from "../../http";
 import "./style.scss";
 
 const UserDetails = () => {
   const [isEdit, setIsEdit] = useState(false);
-  const updateUserDetails = useStoreActions(
-    (action) => action.user.updateUserDetails
-  );
-  const getUserDetails = useStoreActions(
-    (action) => action.user.getUserDetails
-  );
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -27,7 +21,8 @@ const UserDetails = () => {
 
   const handleUpdateUserDetails = async () => {
     try {
-      updateUserDetails(data)
+      await http()
+        .post("auth/updateUserDetails", data)
         .then(() => {
           Notification.success("Profile Updated Successfully!");
           setIsEdit(false);
@@ -42,9 +37,10 @@ const UserDetails = () => {
 
   const handleGetUserDetails = async () => {
     try {
-      getUserDetails()
+      await http()
+        .get("auth/getUserDetails")
         .then((res) => {
-          setData({ ...res });
+          setData({ ...res.data });
         })
         .catch(() => {
           Notification.error("Failed to fetching User Details!");

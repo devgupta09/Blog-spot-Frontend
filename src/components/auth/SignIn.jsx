@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { useStoreActions } from "easy-peasy";
 import Notification from "../common/Notification";
+import http from "../../http";
 import "./style.scss";
 
 const SignIn = () => {
   const navigate = useNavigate();
-  const logIn = useStoreActions((action) => action.user.signIn);
   const [validated, setValidated] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [data, setData] = useState({
@@ -14,16 +13,17 @@ const SignIn = () => {
     password: "",
   });
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     if (data.email == "" || data.password == "") {
       setValidated(true);
       return;
     }
     try {
-      logIn(data)
-        .then(() => {
-          // Notification.success("Login Successfully!");
+      await http()
+        .post("auth/signIn", data)
+        .then((res) => {
+          localStorage.setItem("auth", JSON.stringify(res.data));
           navigate("/allBlogs");
         })
         .catch(() => {

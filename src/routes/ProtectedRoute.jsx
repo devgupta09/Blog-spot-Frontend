@@ -1,13 +1,11 @@
 import React from "react";
 import { Navigate } from "react-router-dom";
-import { useStoreActions } from "easy-peasy";
 import ErrorPage from "../components/common/ErrorPage";
 import Notification from "../components/common/Notification";
 import routes from "./routes";
 
 const ProtectedRoute = (props) => {
   const auth = JSON.parse(localStorage.getItem("auth"));
-  const setToken = useStoreActions((action) => action.user.setToken);
   const { children } = props;
 
   const isValidRoute =
@@ -21,7 +19,6 @@ const ProtectedRoute = (props) => {
   }
 
   if (new Date().getTime() - auth?.sessionTimeout > 30 * 60 * 1000) {
-    setToken(null);
     localStorage.clear();
     Notification.error("Session Time out, Please Try Again!");
     return <Navigate to="/signIn" replace />;

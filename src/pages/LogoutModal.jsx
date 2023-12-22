@@ -1,16 +1,14 @@
 import { Modal } from "antd";
-import { useStoreActions } from "easy-peasy";
 import { useNavigate } from "react-router-dom";
 import Notification from "../components/common/Notification";
 import React from "react";
 
 const LogoutModal = (props) => {
-  const setToken = useStoreActions((action) => action.user.setToken);
   const { modalOpen, setModalOpen } = props;
   const navigate = useNavigate();
 
   const handleOk = () => {
-    setToken(null);
+    localStorage.clear();
     setModalOpen(false);
     navigate("/signIn");
     Notification.success("Log out Successfully!");

@@ -1,28 +1,22 @@
 import React, { useEffect, useState } from "react";
-import { useStoreActions } from "easy-peasy";
 import { useNavigate, useParams } from "react-router-dom";
 import Notification from "../common/Notification";
+import http from "../../http";
 import "./style.scss";
 
 const AddBlog = () => {
   const [validated, setValidated] = useState(false);
-  const addNewBlog = useStoreActions((action) => action.blog.addNewBlog);
-  const updateBlogDetails = useStoreActions(
-    (action) => action.blog.updateBlogDetails
-  );
-  let { id } = useParams();
+  const { id } = useParams();
   const navigate = useNavigate();
-  const getBlogDetails = useStoreActions(
-    (action) => action.blog.getBlogDetails
-  );
   const [data, setData] = useState({
     title: "",
     description: "",
   });
 
-  const addBlog = () => {
+  const addBlog = async () => {
     try {
-      addNewBlog(data)
+      await http()
+        .post("/addBlog", data)
         .then(() => {
           Notification.success("Blog Added Successfully!");
           navigate("/allBlogs");
@@ -35,9 +29,10 @@ const AddBlog = () => {
     }
   };
 
-  const updateBlog = () => {
+  const updateBlog = async () => {
     try {
-      updateBlogDetails({ id, data })
+      await http()
+        .put(`/updateBlog/${id}`, data)
         .then(() => {
           Notification.success("Blog Updated Successfully!");
           navigate("/myBlogs");
@@ -59,19 +54,28 @@ const AddBlog = () => {
     id ? updateBlog() : addBlog();
   };
 
+  const getBlogDetails = async () => {
+    try {
+      await http()
+        .put(`/getBlogDetails/${id}`)
+        .then((res) => {
+          setData({
+            ...data,
+            title: res.data.title,
+            description: res.data.description,
+          });
+        })
+        .catch(() => {
+          Notification.error("Failed to fetching blog details!");
+        });
+    } catch {
+      Notification.warning("Error occured while fetching blog details!");
+    }
+  };
+
   useEffect(() => {
     if (id) {
-      try {
-        getBlogDetails({ id })
-          .then((res) => {
-            setData({
-              ...data,
-              title: res.title,
-              description: res.description,
-            });
-          })
-          .catch((err) => console.log(err));
-      } catch (err) {}
+      getBlogDetails();
     } else {
       setData({
         ...data,

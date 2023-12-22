@@ -1,16 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { useStoreActions, useStoreState } from "easy-peasy";
 import { Link } from "react-router-dom";
 import { Card } from "antd";
 import NoBlogsAvailable from "./NoBlogsAvailable";
 import Notification from "../common/Notification";
+import http from "../../http";
 import "./style.scss";
 
 const AllBlogs = () => {
-  const setLoading = useStoreActions((action) => action.loading.setLoading);
-  const allBlogs = useStoreState((state) => state.blog.blogs);
-  const getAllBlogs = useStoreActions((action) => action.blog.getAllBlogs);
-  const [blogList, setBlogList] = useState(allBlogs);
+  const [blogList, setBlogList] = useState([]);
 
   const handleParaLength = (index, maxlength = 280) => {
     let temp = [...blogList];
@@ -19,25 +16,22 @@ const AllBlogs = () => {
   };
 
   const handleGetAllBlogs = async () => {
-    setLoading(true);
     try {
-      getAllBlogs()
+      await http()
+        .get("/getAllBlogs")
         .then((res) => {
-          res.forEach((element, idx, tempArr) => {
+          res.data.forEach((element, idx, tempArr) => {
             tempArr[idx].maxLength = 280;
           });
-          setBlogList(res);
+          setBlogList(res.data);
         })
         .catch(() => {
           Notification.error("Failed to fetching Blogs!");
         });
     } catch (err) {
       Notification.warning("Error while fetching Blogs!");
-    } finally {
-      setLoading(false);
     }
   };
-
   useEffect(() => {
     handleGetAllBlogs();
   }, []);
