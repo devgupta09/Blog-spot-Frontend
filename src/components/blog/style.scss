@@ -63,10 +63,20 @@
     width: 45vw;
     height: 100%;
   }
+
+  .blog-form-container .blog-container {
+    margin: 5%;
+    width: 85%;
+  }
 }
 
 @media only screen and (max-width: 670px) {
   .ant-card {
     width: 90vw;
+  }
+
+  .blog-form-container .blog-container {
+    margin: 5%;
+    width: 85%;
   }
 }
