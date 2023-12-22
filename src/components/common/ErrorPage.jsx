@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Result } from "antd";
 
@@ -24,4 +23,4 @@ const ErrorPage = () => {
   );
 };
 
-export default React.memo(ErrorPage);
+export default ErrorPage;

@@ -1,33 +1,31 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Card, Tooltip } from "antd";
 import NoBlogsAvailable from "./NoBlogsAvailable";
 import DeleteModal from "./DeleteModal";
 import Notification from "../common/Notification";
+import Loader from "../common/Loader";
 import http from "../../http";
 import "./style.scss";
 
 const MyBlogs = () => {
   const [deleteId, setDeleteId] = useState();
-  const [blogList, setBlogList] = useState([]);
+  const [blogList, setBlogList] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [modalOpen, setModalOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleOk = async () => {
     setModalOpen(false);
-    try {
-      await http()
-        .delete(`/deleteBlog/${deleteId}`)
-        .then(() => {
-          Notification.success("Blog deleted Successfully!");
-          navigate("/myBlogs");
-        })
-        .catch(() => {
-          Notification.error("Failed to Delete Blog!");
-        });
-    } catch (err) {
-      Notification.warning("Error occured while Deleting Blog!");
-    }
+    await http()
+      .delete(`/deleteBlog/${deleteId}`)
+      .then(() => {
+        Notification.success("Blog deleted Successfully!");
+        navigate("/myBlogs");
+      })
+      .catch(() => {
+        Notification.error("Failed to Delete Blog!");
+      });
   };
 
   const handleParaLength = (index, maxlength = 280) => {
@@ -37,31 +35,33 @@ const MyBlogs = () => {
   };
 
   const handleGetMyBlogs = async () => {
-    try {
-      await http()
-        .get("/getMyBlogs")
-        .then((res) => {
-          setBlogList(res.data);
-        })
-        .catch(() => {
-          Notification.error("Failed to fetching Blogs!");
-        });
-    } catch (err) {
-      Notification.warning("Error while fetching Blogs!");
-    }
+    await http()
+      .get("/getMyBlogs")
+      .then((res) => {
+        setBlogList(res.data);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        Notification.error("Failed to fetching Blogs!");
+      });
   };
 
   useEffect(() => {
     handleGetMyBlogs();
   }, []);
 
+  if (blogList && !blogList.length) {
+    return <NoBlogsAvailable />;
+  }
+
   return (
-    <div
-      className="d-flex mx-4 my-4"
-      style={{ gap: "20px", flexWrap: "wrap", minHeight: "80vh" }}
-    >
-      {blogList.length ? (
-        blogList.map((blog, index) => {
+    <Loader isLoading={isLoading}>
+      <div
+        className="d-flex mx-4 my-4"
+        style={{ gap: "20px", flexWrap: "wrap", minHeight: "80vh" }}
+      >
+        {blogList?.map((blog, index) => {
           return (
             <Card
               hoverable
@@ -134,17 +134,15 @@ const MyBlogs = () => {
               </div>
             </Card>
           );
-        })
-      ) : (
-        <NoBlogsAvailable />
-      )}
-      <DeleteModal
-        modalOpen={modalOpen}
-        setModalOpen={setModalOpen}
-        handleOk={handleOk}
-      />
-    </div>
+        })}
+        <DeleteModal
+          modalOpen={modalOpen}
+          setModalOpen={setModalOpen}
+          handleOk={handleOk}
+        />
+      </div>
+    </Loader>
   );
 };
 
-export default React.memo(MyBlogs);
+export default MyBlogs;

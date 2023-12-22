@@ -1,48 +1,31 @@
-import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Notification from "../common/Notification";
 import http from "../../http";
 import "./style.scss";
 
 const AddBlog = () => {
-  const [validated, setValidated] = useState(false);
-  const { id } = useParams();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+  const [validated, setValidated] = useState(false);
   const [data, setData] = useState({
     title: "",
     description: "",
   });
 
   const addBlog = async () => {
-    try {
-      await http()
-        .post("/addBlog", data)
-        .then(() => {
-          Notification.success("Blog Added Successfully!");
-          navigate("/allBlogs");
-        })
-        .catch(() => {
-          Notification.error("Failed to Adding Blog!");
-        });
-    } catch (err) {
-      Notification.warning("Error occured while Adding Blog!");
-    }
-  };
-
-  const updateBlog = async () => {
-    try {
-      await http()
-        .put(`/updateBlog/${id}`, data)
-        .then(() => {
-          Notification.success("Blog Updated Successfully!");
-          navigate("/myBlogs");
-        })
-        .catch(() => {
-          Notification.error("Failed to Adding Blog!");
-        });
-    } catch (err) {
-      Notification.warning("Error occured while Adding Blog!");
-    }
+    setIsLoading(true);
+    await http()
+      .post("/addBlog", data)
+      .then(() => {
+        Notification.success("Blog Added Successfully!");
+        setIsLoading(false);
+        navigate("/allBlogs");
+      })
+      .catch(() => {
+        setIsLoading(false);
+        Notification.error("Failed to Adding Blog!");
+      });
   };
 
   const handleSubmit = (event) => {
@@ -51,44 +34,13 @@ const AddBlog = () => {
       setValidated(true);
       return;
     }
-    id ? updateBlog() : addBlog();
+    addBlog();
   };
-
-  const getBlogDetails = async () => {
-    try {
-      await http()
-        .put(`/getBlogDetails/${id}`)
-        .then((res) => {
-          setData({
-            ...data,
-            title: res.data.title,
-            description: res.data.description,
-          });
-        })
-        .catch(() => {
-          Notification.error("Failed to fetching blog details!");
-        });
-    } catch {
-      Notification.warning("Error occured while fetching blog details!");
-    }
-  };
-
-  useEffect(() => {
-    if (id) {
-      getBlogDetails();
-    } else {
-      setData({
-        ...data,
-        title: "",
-        description: "",
-      });
-    }
-  }, [id]);
 
   return (
     <div className="blog-form-container">
       <div className="blog-container">
-        <h2>{id ? "Edit Blog!" : "Add New Blog!"}</h2>
+        <h2>Add New Blog!</h2>
         <form
           onSubmit={handleSubmit}
           onChange={() => setValidated(false)}
@@ -126,7 +78,15 @@ const AddBlog = () => {
             />
           </div>
           <button type="submit" className="btn btn-primary w-100 mt-4">
-            {id ? "Update Blog" : "Add Blog"}
+            {isLoading ? (
+              <span
+                className="spinner-border spinner-border-sm"
+                role="status"
+                aria-hidden="true"
+              />
+            ) : (
+              "Add Blog"
+            )}
           </button>
         </form>
       </div>
@@ -134,4 +94,4 @@ const AddBlog = () => {
   );
 };
 
-export default React.memo(AddBlog);
+export default AddBlog;

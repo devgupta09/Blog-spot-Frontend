@@ -2,18 +2,22 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
 
-.ant-spin {
-  max-height: 100vh !important;
-}
+  .ant-spin {
+    max-height: 100vh !important;
+  }
 
-.ant-spin-text {
-  font-size: 20px !important;
-  font-weight: 500;
-  color: #555557;
-}
+  .ant-spin-text {
+    font-size: 15px !important;
+    font-weight: 500;
+    color: #555557;
+  }
 
-.ant-spin-nested-loading {
-  width: 100%;
+  .ant-spin-nested-loading {
+    width: 100%;
+  }
+
+  .ant-spin-dot-item {
+    background-color: #646365 !important;
+  }
 }

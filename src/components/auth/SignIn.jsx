@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Notification from "../common/Notification";
 import http from "../../http";
@@ -8,10 +8,26 @@ const SignIn = () => {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({
     email: "",
     password: "",
   });
+
+  const signIn = async () => {
+    setIsLoading(true);
+    await http()
+      .post("auth/signIn", data)
+      .then((res) => {
+        localStorage.setItem("auth", JSON.stringify(res.data));
+        setIsLoading(false);
+        navigate("/allBlogs");
+      })
+      .catch(() => {
+        setIsLoading(false);
+        Notification.error("Login Failed!");
+      });
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -19,19 +35,7 @@ const SignIn = () => {
       setValidated(true);
       return;
     }
-    try {
-      await http()
-        .post("auth/signIn", data)
-        .then((res) => {
-          localStorage.setItem("auth", JSON.stringify(res.data));
-          navigate("/allBlogs");
-        })
-        .catch(() => {
-          Notification.error("Login Failed!");
-        });
-    } catch (err) {
-      Notification.warning("Error occured while Login!");
-    }
+    signIn();
   };
 
   return (
@@ -94,11 +98,19 @@ const SignIn = () => {
           type="submit"
           className={`btn btn-primary w-100 ${validated ? "mt-2" : "mt-4"}`}
         >
-          Login
+          {isLoading ? (
+            <span
+              className="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            />
+          ) : (
+            "Login"
+          )}
         </button>
       </form>
     </div>
   );
 };
 
-export default React.memo(SignIn);
+export default SignIn;

@@ -1,7 +1,6 @@
 import { Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import Notification from "../components/common/Notification";
-import React from "react";
 
 const LogoutModal = (props) => {
   const { modalOpen, setModalOpen } = props;
@@ -41,4 +40,4 @@ const LogoutModal = (props) => {
   );
 };
 
-export default React.memo(LogoutModal);
+export default LogoutModal;

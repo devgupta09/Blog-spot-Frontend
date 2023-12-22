@@ -1,13 +1,15 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Card } from "antd";
 import NoBlogsAvailable from "./NoBlogsAvailable";
 import Notification from "../common/Notification";
+import Loader from "../common/Loader";
 import http from "../../http";
 import "./style.scss";
 
 const AllBlogs = () => {
-  const [blogList, setBlogList] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [blogList, setBlogList] = useState(null);
 
   const handleParaLength = (index, maxlength = 280) => {
     let temp = [...blogList];
@@ -16,33 +18,36 @@ const AllBlogs = () => {
   };
 
   const handleGetAllBlogs = async () => {
-    try {
-      await http()
-        .get("/getAllBlogs")
-        .then((res) => {
-          res.data.forEach((element, idx, tempArr) => {
-            tempArr[idx].maxLength = 280;
-          });
-          setBlogList(res.data);
-        })
-        .catch(() => {
-          Notification.error("Failed to fetching Blogs!");
+    await http()
+      .get("/getAllBlogs")
+      .then((res) => {
+        res.data.forEach((element, idx, tempArr) => {
+          tempArr[idx].maxLength = 280;
         });
-    } catch (err) {
-      Notification.warning("Error while fetching Blogs!");
-    }
+        setBlogList(res.data);
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+        Notification.error("Failed to fetching Blogs!");
+      });
   };
+
   useEffect(() => {
     handleGetAllBlogs();
   }, []);
 
+  if (blogList && !blogList.length) {
+    return <NoBlogsAvailable />;
+  }
+
   return (
-    <div
-      className="d-flex mx-4 my-4"
-      style={{ gap: "20px", flexWrap: "wrap", minHeight: "80vh" }}
-    >
-      {blogList.length ? (
-        blogList.map((blog, index) => {
+    <Loader isLoading={isLoading}>
+      <div
+        className="d-flex mx-4 my-4"
+        style={{ gap: "20px", flexWrap: "wrap", minHeight: "80vh" }}
+      >
+        {blogList?.map((blog, index) => {
           return (
             <Card
               hoverable
@@ -92,12 +97,10 @@ const AllBlogs = () => {
               </div>
             </Card>
           );
-        })
-      ) : (
-        <NoBlogsAvailable />
-      )}
-    </div>
+        })}
+      </div>
+    </Loader>
   );
 };
 
-export default React.memo(AllBlogs);
+export default AllBlogs;

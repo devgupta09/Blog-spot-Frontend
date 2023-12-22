@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import { Route, Routes } from "react-router-dom";
 import ProtectedRoute from "./ProtectedRoute";
 import routes from "./routes";
@@ -26,4 +26,4 @@ const RouterFlow = () => {
   );
 };
 
-export default React.memo(RouterFlow);
+export default RouterFlow;

@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Notification from "../common/Notification";
 import "./style.scss";
 
 const ForgetPassword = () => {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
   const [validated, setValidated] = useState(false);
   const [email, setEmail] = useState("");
 
@@ -14,9 +15,12 @@ const ForgetPassword = () => {
       setValidated(true);
       return;
     }
-    Notification.success("OTP send Successfully!");
-    setValidated(false);
-    navigate("/signIn");
+    setIsLoading(true);
+    setTimeout(() => {
+      Notification.success("OTP send Successfully!");
+      setIsLoading(false);
+      navigate("/signIn");
+    }, 2000);
   };
 
   return (
@@ -43,11 +47,19 @@ const ForgetPassword = () => {
           />
         </div>
         <button type="submit" className="btn btn-primary w-100 mt-4">
-          Submit
+          {isLoading ? (
+            <span
+              className="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            />
+          ) : (
+            "Send OTP"
+          )}
         </button>
       </form>
     </div>
   );
 };
 
-export default React.memo(ForgetPassword);
+export default ForgetPassword;

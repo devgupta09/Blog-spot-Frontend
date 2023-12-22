@@ -1,4 +1,3 @@
-import React from "react";
 import { useNavigate } from "react-router-dom";
 import { Button, Result } from "antd";
 import "./style.scss";
@@ -21,4 +20,4 @@ const NoBlogsAvailable = () => {
   );
 };
 
-export default React.memo(NoBlogsAvailable);
+export default NoBlogsAvailable;

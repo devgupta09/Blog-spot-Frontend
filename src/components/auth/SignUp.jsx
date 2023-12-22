@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Notification from "../common/Notification";
 import http from "../../http";
@@ -7,6 +7,7 @@ import "./style.scss";
 const SignUp = () => {
   const navigate = useNavigate();
   const [validated, setValidated] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({
     name: "",
     email: "",
@@ -15,19 +16,18 @@ const SignUp = () => {
   });
 
   const createNewAccount = async () => {
-    try {
-      await http()
-        .post("auth/signUp", data)
-        .then(() => {
-          Notification.success("Account Created Successfully!");
-          navigate("/signIn");
-        })
-        .catch(() => {
-          Notification.error("Account creation Failed!");
-        });
-    } catch (err) {
-      Notification.warning('Error occured while Creating Account!"');
-    }
+    setIsLoading(true);
+    await http()
+      .post("auth/signUp", data)
+      .then(() => {
+        Notification.success("Account Created Successfully!");
+        setIsLoading(false);
+        navigate("/signIn");
+      })
+      .catch(() => {
+        setIsLoading(false);
+        Notification.error("Account creation Failed!");
+      });
   };
 
   const handleSubmit = async (event) => {
@@ -119,11 +119,19 @@ const SignUp = () => {
           <Link to="/signIn">Already have an account?</Link>
         </div>
         <button type="submit" className="btn btn-primary w-100 mt-4">
-          Sign Up
+          {isLoading ? (
+            <span
+              className="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            />
+          ) : (
+            "Sign Up"
+          )}
         </button>
       </form>
     </div>
   );
 };
 
-export default React.memo(SignUp);
+export default SignUp;

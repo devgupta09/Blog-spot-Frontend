@@ -1,4 +1,3 @@
-import React from "react";
 import { Modal } from "antd";
 
 const DeleteModal = (props) => {
@@ -31,4 +30,4 @@ const DeleteModal = (props) => {
   );
 };
 
-export default React.memo(DeleteModal);
+export default DeleteModal;

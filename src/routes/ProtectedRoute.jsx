@@ -1,4 +1,3 @@
-import React from "react";
 import { Navigate } from "react-router-dom";
 import ErrorPage from "../components/common/ErrorPage";
 import Notification from "../components/common/Notification";
@@ -35,4 +34,4 @@ const ProtectedRoute = (props) => {
   return children;
 };
 
-export default React.memo(ProtectedRoute);
+export default ProtectedRoute;

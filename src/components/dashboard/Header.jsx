@@ -1,4 +1,3 @@
-import React from "react";
 import { Navbar, Nav } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { Dropdown, Image } from "antd";
@@ -127,4 +126,4 @@ const Header = (props) => {
   );
 };
 
-export default React.memo(Header);
+export default Header;

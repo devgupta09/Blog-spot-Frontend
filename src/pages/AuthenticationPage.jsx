@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import ForgetPassword from "../components/auth/ForgetPassword";
 import DashboardPage from "./DashboardPage";
@@ -22,4 +22,4 @@ const AuthenticationPage = () => {
   );
 };
 
-export default React.memo(AuthenticationPage);
+export default AuthenticationPage;
