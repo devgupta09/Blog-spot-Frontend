@@ -107,7 +107,7 @@ const MyBlogs = () => {
                         style={{ textDecoration: "none" }}
                         onClick={() => handleParaLength(index)}
                       >
-                        See less
+                        ...See less
                       </Link>
                     ) : (
                       <Link

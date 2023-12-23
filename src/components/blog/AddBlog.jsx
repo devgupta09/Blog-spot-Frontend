@@ -34,6 +34,10 @@ const AddBlog = () => {
       setValidated(true);
       return;
     }
+    if (data.title?.length > 20) {
+      Notification.warning("Title length should be less than 20 characters");
+      return;
+    }
     addBlog();
   };
 

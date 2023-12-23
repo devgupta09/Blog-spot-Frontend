@@ -60,26 +60,25 @@ const UserDetails = () => {
       <div className="profile-page-container">
         <div className="profile-container">
           <div className="profile-name-container">
-            <img
-              src={userImage}
-              alt=""
-              width={150}
-              height={150}
-              style={{
-                borderRadius: "50%",
-                border: "3px solid #787778",
-                padding: "5px",
-              }}
-            />
-            <h3 className="mt-4 text-center text-secondary">{data.name}</h3>
-
-            <div className="my-5">
-              <div className="total-blogs-container">
-                Total Blogs Submitted <span>{data.totalBlogs}</span>
-              </div>
+            <span className="profile">
+              <img
+                src={userImage}
+                alt=""
+                width={150}
+                height={150}
+                style={{
+                  borderRadius: "50%",
+                  border: "3px solid #787778",
+                  padding: "5px",
+                }}
+              />
+              <h3 className="text-center text-secondary">{data.name}</h3>
+            </span>
+            <div className="total-blogs-container">
+              Total Blogs Submitted <span>{data.totalBlogs}</span>
             </div>
           </div>
-          <div style={{ width: "70%" }}>
+          <div style={{ width: "70%" }} className="user-profile-form">
             {!isEdit && (
               <div
                 className="edit-profile-btn"
@@ -97,7 +96,7 @@ const UserDetails = () => {
             <form
               className="profile-details-container"
               onSubmit={handleSubmit}
-              style={{ margin: "30px 100px" }}
+              style={{ margin: "30px 50px" }}
             >
               <div className="mb-3">
                 <label htmlFor="name" className="form-label">

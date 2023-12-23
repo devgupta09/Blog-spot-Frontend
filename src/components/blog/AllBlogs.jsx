@@ -70,7 +70,7 @@ const AllBlogs = () => {
                         style={{ textDecoration: "none" }}
                         onClick={() => handleParaLength(index)}
                       >
-                        {" See less"}
+                        ...See less
                       </Link>
                     ) : (
                       <Link
@@ -79,7 +79,7 @@ const AllBlogs = () => {
                           handleParaLength(index, blog.description.length)
                         }
                       >
-                        {"...See More"}
+                        ...See More
                       </Link>
                     ))}
                 </p>

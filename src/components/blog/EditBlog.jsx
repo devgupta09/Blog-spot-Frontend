@@ -31,15 +31,6 @@ const EditBlog = () => {
       });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (data.title == "" || data.description == "") {
-      setValidated(true);
-      return;
-    }
-    updateBlog();
-  };
-
   const getBlogDetails = async () => {
     setIsSpinning(true);
     await http()
@@ -55,6 +46,19 @@ const EditBlog = () => {
         setIsSpinning(false);
         Notification.error("Failed to fetching blog details!");
       });
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    if (data.title == "" || data.description == "") {
+      setValidated(true);
+      return;
+    }
+    if (data.title?.length > 20) {
+      Notification.warning("Title length should be less than 20 characters");
+      return;
+    }
+    updateBlog();
   };
 
   useEffect(() => {
