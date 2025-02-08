@@ -10,8 +10,8 @@ const SignIn = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState({
-    email: "",
-    password: "",
+    email: "testuser@yopmail.com",
+    password: "Test@1234",
   });
 
   const signIn = async () => {
@@ -69,7 +69,10 @@ const SignIn = () => {
             placeholder="Enter password"
             type={showPassword ? "text" : "password"}
             value={data.password}
-            onChange={(e) => setData({ ...data, password: e.target.value })}
+            onChange={(e) => {
+              setData({ ...data, password: e.target.value });
+              setShowPassword(false);
+            }}
             className="form-control"
             id="password"
             required
@@ -80,7 +83,7 @@ const SignIn = () => {
             type="checkbox"
             className="form-check-input"
             id="showPassword"
-            value={showPassword}
+            checked={showPassword}
             onClick={() => setShowPassword(!showPassword)}
           />
           <label className="form-check-label" htmlFor="showPassword">
@@ -91,8 +94,8 @@ const SignIn = () => {
           className="d-flex py-3 flex-column align-items-center"
           style={{ gap: "10px" }}
         >
-          <Link to="/signUp">Create new account?</Link>
           <Link to="/forgetPassword">Forget password?</Link>
+          <Link to="/signUp">Create new account?</Link>
         </div>
         <button
           type="submit"
